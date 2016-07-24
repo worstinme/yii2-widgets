@@ -14,7 +14,7 @@
         "yiisoft/yii2": "*",
         "worstinme/yii2-jodit": "*",
         "mihaildev/yii2-elfinder" : "*",
-        "mihaildev/yii2-uikit" : "*"
+        "worstinme/yii2-uikit" : "*"
     },
     "autoload": {
         "psr-4": {
