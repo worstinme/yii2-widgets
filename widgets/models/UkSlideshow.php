@@ -1,13 +1,14 @@
 <?php
 
-namespace worstinme\zoo\widgets\models;
+namespace worstinme\widgets\widgets\models;
 
 use Yii;
-use worstinme\zoo\models\Items;
 
 class UkSlideshow extends \yii\base\Model
 {
-    
+    public $content = [];
+    public $images = [];
+    public $type = 1;
 
     public static function getName() {
         return 'Uk-Slideshow';
@@ -18,21 +19,61 @@ class UkSlideshow extends \yii\base\Model
     }
 
     public static function getFormView() {
-        return '@worstinme/zoo/widgets/forms/uk-slideshow';
+        return '@worstinme/widgets/widgets/forms/uk-slideshow';
+    }
+
+    public function getSlides() {
+        return $this->content;
+    }
+
+    public function setSlides($a) {
+        foreach ((array)$a as $key => $value) {
+            $value = trim(strip_tags($value));
+            if (empty($value)) {
+                unset($a[$key]);
+                if (isset($this->image[$key])) {
+                    unset($this->image[$key]);
+                }
+            }
+        }
+
+        return $this->content = $a;
+    }
+
+    public function getImage() {
+        return $this->images;
+    }
+
+    public function setImage($a) {
+        if (is_array($a)) {
+            foreach ((array)$a as $key => $value) {
+                $value = trim(strip_tags($value));
+                if (empty($value)) {
+                    unset($a[$key]);
+                }
+            }
+        }
+        return $this->images = $a;
     }
 
     public function rules()
     {
         return [
-            [['path'],'string'],
+            ['slides','each','rule'=>['string']],
+            ['content','each','rule'=>['string']],
+            ['image','each','rule'=>['string']],
+            ['images','each','rule'=>['string']],
+            ['type','integer'],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'path' => Yii::t('backend', 'Path to images folder'),
+            'slides' => Yii::t('widgets', 'Html & text'),
+            'image' => Yii::t('widgets', 'Image url'),
         ];
     }
+
 
 }

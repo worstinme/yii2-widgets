@@ -1,10 +1,10 @@
 <?php
 
-namespace worstinme\zoo\widgets\models;
+namespace worstinme\widgets\widgets\models;
 
 use Yii;
 
-class Html extends \yii\base\Model
+class Html extends \yii\base\Model 
 {
     public $content;
 
@@ -17,7 +17,7 @@ class Html extends \yii\base\Model
     }
 
     public static function getFormView() {
-        return '@worstinme/zoo/widgets/forms/html';
+        return '@worstinme/widgets/widgets/forms/html';
     }
 
     public function rules()

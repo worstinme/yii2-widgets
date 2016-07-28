@@ -7,6 +7,7 @@ use yii\helpers\FileHelper;
 use yii\helpers\Json;
 use worstinme\widgets\models\Widgets;
 use worstinme\widgets\models\WidgetsSearch;
+use worstinme\widgets\helpers\ShortcodeHelper;
 
 class Component extends \yii\base\Component { 
 
@@ -21,9 +22,9 @@ class Component extends \yii\base\Component {
 	private $widgetModels;
 	private $bounds;
 
-	public function shortcodes($content) {
+	public function findShortcodes($content) {
 
-		$shortcode = new \worstinme\zoo\helpers\ShortcodeHelper;
+		$shortcode = new ShortcodeHelper;
 		$shortcode->callbacks = $this->callbacks();
 
 		return $shortcode->parse($content);
@@ -42,11 +43,11 @@ class Component extends \yii\base\Component {
 
 		$out = '';
 
-
-
 		if (!empty($position)) {
 
-			$key = 'worstinme_widgets_'.$position.Yii::$app->language;
+			$key = 'worstinme_widgets_'.$position.'_'.Yii::$app->language;
+
+			//Yii::$app->cache->flush();
 
     		$data = Yii::$app->cache->get($key);
 
@@ -86,7 +87,11 @@ class Component extends \yii\base\Component {
 				    ],
 				]);
 
-				$dependency = new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM {{%widgets}}']);
+				$dependency = new \yii\caching\ChainedDependency([
+					'dependencies'=> [
+						new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM {{%widgets}}'])
+					],
+				]);
     			
     			Yii::$app->cache->set($key, $data, 0, $dependency);
 

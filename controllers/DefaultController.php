@@ -72,22 +72,29 @@ class DefaultController extends \yii\web\Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->widgetModel->validate() && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->widgetModel->validate()) {
 
-            if (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                return [
-                    'success' => true,
-                    'model' => $model->getAttributes(),
-                ];
+            if (Yii::$app->request->post('reload') === null && $model->save()) {
+
+                if (Yii::$app->request->isAjax && Yii::$app->request->post('submitButton') === null) {
+                    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    return [
+                        'success' => true,
+                        'model' => $model->getAttributes(),
+                    ];
+                }
+
+                Yii::$app->session->setFlash('success',Yii::t('app','Widget was updated'));
+
+                return $this->redirect(['index']);
             }
-
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+        
     }
 
     public function actionSort() {

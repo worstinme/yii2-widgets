@@ -19,7 +19,7 @@ class Widgets extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['widget', 'name','position'], 'required'],
+            [['widget', 'name','position'], 'required','when'=>function($model){return Yii::$app->request->post('reload') === null;}, 'whenClient' => "function (attribute, value) { return $('input[name=\"reload\"]').length == 0; }"],
             [['params'], 'string'],
             [['widget', 'name','css_class','position'], 'string','max'=>255],
             [['lang'], 'string','max'=>255,'skipOnEmpty'=>true],
@@ -77,12 +77,14 @@ class Widgets extends \yii\db\ActiveRecord
     }
 
     public function setBound($a) {
-        foreach ((array)$a as $key => $value) {
-            if (empty($value['module']) && empty($value['controller']) && empty($value['action'])) {
-                unset($a[$key]);
+        if (is_array($a)) 
+            foreach ($a as $key => $value) {
+                if (empty($value['module']) && empty($value['controller']) && empty($value['action'])) {
+                    unset($a[$key]);
+                }
             }
-        }
         return $this->bound = $a;
+        
     }
 
     public function getParams() {
@@ -105,10 +107,9 @@ class Widgets extends \yii\db\ActiveRecord
     {
 
 
-        if (count($this->bound)) {
-            
-            Yii::$app->db->createCommand()->delete('{{%widget_bounds}}', ['widget_id'=>$this->id])->execute();
+        Yii::$app->db->createCommand()->delete('{{%widget_bounds}}', ['widget_id'=>$this->id])->execute();
 
+        if (is_array($this->bound)) {
             foreach ($this->bound as $key => $value) {
                 Yii::$app->db->createCommand()->insert('{{%widget_bounds}}',[
                     'widget_id'=>$this->id, 
@@ -118,7 +119,6 @@ class Widgets extends \yii\db\ActiveRecord
                     'except'=>$value['except']??null,
                 ])->execute();
             }
-            
         }
 
         return parent::afterSave($insert, $changedAttributes);

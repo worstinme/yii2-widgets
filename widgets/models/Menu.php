@@ -1,6 +1,6 @@
 <?php
 
-namespace worstinme\zoo\widgets\models;
+namespace worstinme\widgets\widgets\models;
 
 use Yii;
 use worstinme\zoo\backend\models\Menu;

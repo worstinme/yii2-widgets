@@ -3,17 +3,14 @@
 namespace worstinme\widgets\widgets;
 
 use Yii;
-use yii\helpers\Html;
 use yii\helpers\FileHelper;
 
 class UkSlideshow extends Widget
 {
 
-    public $path;
+    public $content = [];
     public $images = [];
-    public $slides = [];
-    public $height;
-    public $items = [];
+    public $type = 1;
 
     /*  item => [
             'img'=>'/img.jpg', from @webroot
@@ -23,41 +20,17 @@ class UkSlideshow extends Widget
 
     public function init()
     {
-        if ($this->path !== null) {
-            $webroot = Yii::getAlias('@webroot');
-
-            $dir = $webroot.DIRECTORY_SEPARATOR.ltrim($this->path,DIRECTORY_SEPARATOR);
-
-            if (is_dir($dir)) {
-                $files = FileHelper::findFiles($webroot.DIRECTORY_SEPARATOR.ltrim($this->path,DIRECTORY_SEPARATOR));
-                foreach ($files as $file) {
-                    $this->items[] = ['img'=>str_replace($webroot, "", $file)];
-                }
-            }
-        }
-
-        if (count($this->images)) {
-            foreach ($this->images as $image) {
-                $this->items[] = ['img'=>$image];
-            }
-        }
-
-        if (count($this->slides)) {
-            foreach ($this->slides as $slide) {
-                $this->items[] = ['item'=>$slide];
-            }
-        }
-
         parent::init();
     }
 
     public function run()
     {
 
-        if (count($this->items)) {
+        if ($this->type == 1 && count($this->content)) {
 
             return $this->render('uk-slideshow',[
-                'items'=>$this->items,
+                'items'=>$this->content,
+                'images'=>$this->images,
             ]); 
 
         }
