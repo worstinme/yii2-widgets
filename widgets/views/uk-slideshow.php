@@ -1,11 +1,12 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 \worstinme\uikit\assets\Slideshow::register($this);
 
 ?>
-<div class="uk-slidenav-position" data-uk-slideshow data-uk-check-display>
+<div class="uk-slidenav-position" data-uk-slideshow='<?=Json::encode($options)?>' data-uk-check-display>
     <ul class="uk-slideshow">
 	<?php foreach ($items as $key=>$item): ?>
 		<li>

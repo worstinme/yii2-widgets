@@ -11,6 +11,8 @@ class UkSlideshow extends Widget
     public $content = [];
     public $images = [];
     public $type = 1;
+    public $height;
+    public $autoplay;
 
     /*  item => [
             'img'=>'/img.jpg', from @webroot
@@ -25,12 +27,22 @@ class UkSlideshow extends Widget
 
     public function run()
     {
+        $options = [];
 
+        if ($this->height !== null) {
+            $options['height'] = $this->height;
+        }
+
+        if ($this->autoplay !== null) {
+            $options['autoplay'] = $this->autoplay;
+        }
+        
         if ($this->type == 1 && count($this->content)) {
 
             return $this->render('uk-slideshow',[
                 'items'=>$this->content,
                 'images'=>$this->images,
+                'options'=>$options,
             ]); 
 
         }

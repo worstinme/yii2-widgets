@@ -130,7 +130,7 @@ class Component extends \yii\base\Component {
 	        $paths = ['worstinme\widgets\widgets\models'=>'@worstinme/widgets/widgets/models'];
 
 	        if (Yii::$app->has('zoo')) {
-	       // 	$paths['worstinme\zoo\widgets\models'] = '@worstinme/zoo/widgets/models';
+	        	$paths['worstinme\zoo\widgets\models'] = '@worstinme/zoo/widgets/models';
 	        }
 
 	        if ($this->customWidgetsPath !== null && $this->customWidgetsNamespace !== null) {
@@ -165,7 +165,7 @@ class Component extends \yii\base\Component {
 	        $paths = ['worstinme\widgets\widgets'=>'@worstinme/widgets/widgets'];
 
 	        if (Yii::$app->has('zoo')) {
-	       // 	$paths['worstinme\zoo\widgets'] = '@worstinme/zoo/widgets';
+	        	$paths['worstinme\zoo\widgets'] = '@worstinme/zoo/widgets';
 	        }
 
 	        if ($this->customWidgetsPath !== null && $this->customWidgetsNamespace !== null) {

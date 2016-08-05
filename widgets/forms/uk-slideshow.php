@@ -118,6 +118,10 @@ $_reload = Yii::$app->request->post('reload');
 
 <?= Html::a('Добавить строку', $url = null, ['data' => ['method'=>'post','params'=>['reload'=>true],'pjax'=>true]]); ?>
 
+<?= $form->field($model, 'height')->textInput(['placeholder' => 'Высота']); ?>
+
+<?= $form->field($model, 'autoplay')->checkbox(['option' => 'value']); ?>
+
 <?php Pjax::end(); ?>
 
 <?php $script = <<<JAVASCRIPT
