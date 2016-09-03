@@ -138,8 +138,10 @@ class DefaultController extends \yii\web\Controller
 
     protected function findModel($id)
     {
+
+
         if ($id === null && ($widget = $this->getWidget(Yii::$app->request->get('widget'))) !== null) {
-            $model = new Widgets(['state'=>1,'cache'=>1]);
+            $model = new Widgets(['state'=>1]);
             $model->widgetModel = new $widget;
             $model->widget = Yii::$app->request->get('widget');
             return $model;
@@ -150,13 +152,14 @@ class DefaultController extends \yii\web\Controller
             return $model;
         }
         else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+          //  throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
     protected function getWidget($widget) {
 
-        return !empty(Yii::$app->widgets->widgetsModels[$widget]) ? Yii::$app->widgets->widgetsModels[$widget] : null;
+        $widgetsModels = Yii::$app->widgets->widgetsModels;
+        return !empty($widgetsModels[$widget]) ? $widgetsModels[$widget] : null;
 
     }
 
