@@ -10,6 +10,7 @@ class UkSlideshow extends \yii\base\Model
     public $images = [];
     public $type = 1;
     public $height;
+    public $slide_container = false;
     public $autoplay;
 
     public static function getName() {
@@ -65,7 +66,7 @@ class UkSlideshow extends \yii\base\Model
             ['content','each','rule'=>['string']],
             ['image','each','rule'=>['string']],
             ['images','each','rule'=>['string']],
-            [['type','autoplay'],'integer'],
+            [['type','autoplay','slide_container'],'integer'],
             ['height','string','max'=>255],
         ];
     }

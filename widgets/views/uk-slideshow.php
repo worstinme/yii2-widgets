@@ -14,9 +14,13 @@ use yii\helpers\Json;
 				<?= Html::img($images[$key], ['option' => 'value']); ?>
 			<?php endif ?>
 			<div class="uk-overlay-panel uk-overlay-background uk-flex uk-flex-center uk-flex-middle uk-text-center">
-				<div class="uk-container uk-container-center">
+				<?php if ($this->context->slide_container): ?>
+				<div class="uk-container uk-container-center">	
 					<?=$item?>
 				</div>
+				<?php else: ?>
+					<?=$item?>
+				<?php endif ?>
 			</div>
 		</li>
 	<?php endforeach ?>

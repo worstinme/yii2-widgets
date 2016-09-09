@@ -12,6 +12,7 @@ class UkSlideshow extends Widget
     public $images = [];
     public $type = 1;
     public $height;
+    public $slide_container = false;
     public $autoplay;
 
     /*  item => [
@@ -29,11 +30,11 @@ class UkSlideshow extends Widget
     {
         $options = [];
 
-        if ($this->height !== null) {
+        if (!empty($this->height)) {
             $options['height'] = $this->height;
         }
 
-        if ($this->autoplay !== null) {
+        if (!empty($this->autoplay)) {
             $options['autoplay'] = $this->autoplay;
         }
         

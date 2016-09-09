@@ -122,6 +122,8 @@ $_reload = Yii::$app->request->post('reload');
 
 <?= $form->field($model, 'autoplay')->checkbox(['option' => 'value']); ?>
 
+<?= $form->field($model, 'slide_container')->checkbox(['option' => 'value']); ?>
+
 <?php Pjax::end(); ?>
 
 <?php $script = <<<JAVASCRIPT
