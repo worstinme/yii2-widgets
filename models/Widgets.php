@@ -113,10 +113,10 @@ class Widgets extends \yii\db\ActiveRecord
             foreach ($this->bound as $key => $value) {
                 Yii::$app->db->createCommand()->insert('{{%widget_bounds}}',[
                     'widget_id'=>$this->id, 
-                    'module'=>$value['module']??null,
-                    'controller'=>$value['controller']??null,
-                    'action'=>$value['action']??null,
-                    'except'=>$value['except']??null,
+                    'module'=>!empty($value['module'])?$value['module']:null,
+                    'controller'=>!empty($value['controller'])?$value['controller']:null,
+                    'action'=>!empty($value['action'])?$value['action']:null,
+                    'except'=>!empty($value['except'])?$value['except']:null,
                 ])->execute();
             }
         }
