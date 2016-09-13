@@ -30,7 +30,7 @@ class Html extends \yii\base\Model
     public function attributeLabels()
     {
         return [
-            'content' => Yii::t('backend', 'Html & text'),
+            'content' => 'Html & text',
         ];
     }
 

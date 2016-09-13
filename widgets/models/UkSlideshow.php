@@ -74,8 +74,8 @@ class UkSlideshow extends \yii\base\Model
     public function attributeLabels()
     {
         return [
-            'slides' => Yii::t('widgets', 'Html & text'),
-            'image' => Yii::t('widgets', 'Image url'),
+            'slides' => 'Html & text',
+            'image' => 'Image url',
         ];
     }
 

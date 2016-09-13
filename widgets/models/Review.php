@@ -34,10 +34,10 @@ class Review extends \yii\base\Model
     public function attributeLabels()
     {
         return [
-            'content' => Yii::t('backend', 'Html & text'),
-            'image' => Yii::t('backend', 'Url to photo'),
-            'title' => Yii::t('backend', "Reviewer's name"),
-            'subtitle' => Yii::t('backend', 'Short description'),
+            'content' => 'Html & text',
+            'image' => 'Url to photo',
+            'title' => "Reviewer's name",
+            'subtitle' => 'Short description',
         ];
     }
 

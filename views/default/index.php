@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="widgets-index">
 
-    <?= Html::a(Yii::t('backend','Создать виджет'), ['create'], ['class' => 'uk-button uk-button-success']); ?>
+    <?= Html::a('Создать виджет', ['create'], ['class' => 'uk-button uk-button-success']); ?>
 
     <?php if (empty($searchModel->position)): ?>
 

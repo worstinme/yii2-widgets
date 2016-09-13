@@ -84,7 +84,7 @@ class DefaultController extends \yii\web\Controller
                     ];
                 }
 
-                Yii::$app->session->setFlash('success',Yii::t('app','Widget was updated'));
+                Yii::$app->session->setFlash('success','Widget was updated');
 
                 return $this->redirect(['index']);
             }

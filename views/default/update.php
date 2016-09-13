@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use worstinme\uikit\ActiveForm;
 
-$this->title = $model->isNewRecord ? Yii::t('backend', 'Созадние виджета') : Yii::t('backend', 'Настройка виджета');
+$this->title = $model->isNewRecord ? 'Созадние виджета' : 'Настройка виджета';
 $this->params['breadcrumbs'][] = $this->title;
 
 

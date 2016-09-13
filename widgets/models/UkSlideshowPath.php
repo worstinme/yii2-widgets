@@ -30,7 +30,7 @@ class UkSlideshowPath extends \yii\base\Model
     public function attributeLabels()
     {
         return [
-            'path' => Yii::t('backend', 'Path to images folder'),
+            'path' => 'Path to images folder',
         ];
     }
 
