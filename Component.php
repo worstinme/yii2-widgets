@@ -105,6 +105,7 @@ class Component extends \yii\base\Component {
 
 			}
 
+
 		}
 
 		return $out;
@@ -112,7 +113,7 @@ class Component extends \yii\base\Component {
 	}
 
 	public function callWidget($widget) {
-		
+
 		if (!empty($this->widgets[$widget['callback']])) {
 			if ($this->checkBounds($widget['bounds'])) {
 				return call_user_func([$this->widgets[$widget['callback']],'widget'], $widget['params']);
@@ -140,6 +141,7 @@ class Component extends \yii\base\Component {
 	        foreach ($paths as $namespace => $path) {
 
 	        	$path = rtrim(Yii::getAlias($path),DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+
 	        	$widgetModels = \yii\helpers\FileHelper::findFiles($path);
 
 		        foreach ($widgetModels as $key => $model) { 
@@ -172,14 +174,16 @@ class Component extends \yii\base\Component {
 	        	$paths[$this->customWidgetsNamespace] = $this->customWidgetsPath;
 	        }
 
+
+
 	        foreach ($paths as $namespace => $path) {
 
 	        	$path = rtrim(Yii::getAlias($path),DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 
 	        	$widgetModels = \yii\helpers\FileHelper::findFiles($path);
 
-		        foreach ($widgetModels as $key => $model) { 
-			        $model = str_replace($path, '', rtrim($model,".php"));
+		        foreach ($widgetModels as $key => $model) {
+			        $model = str_replace([$path,".php"], '', $model);
 			        $widgets[$model] = rtrim($namespace,"\\")."\\".$model;
 			    }
 
