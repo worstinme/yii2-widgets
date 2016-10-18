@@ -114,8 +114,11 @@ class Component extends \yii\base\Component {
 
 	public function callWidget($widget) {
 
+	    if ($this->widgets === null)
+            $this->getWidgets();
+
 		if (!empty($this->widgets[$widget['callback']])) {
-			if ($this->checkBounds($widget['bounds'])) {
+			if (!isset($widget['bounds']) || $this->checkBounds($widget['bounds'])) {
 				return call_user_func([$this->widgets[$widget['callback']],'widget'], $widget['params']);
 			}
 		}
