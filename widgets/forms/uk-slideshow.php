@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use worstinme\uikit\ActiveForm;
 use mihaildev\elfinder\InputFile;
 use yii\widgets\Pjax;
 
@@ -40,13 +39,20 @@ $_reload = Yii::$app->request->post('reload');
 		<div class="uk-float-right">
 			<?=$this->render('@worstinme/widgets/views/default/_row-buttons',['key'=>$key])?>
 		</div>
-		<?=$form->field($model, "slides[$key]")->widget(\worstinme\jodit\Editor::className(), [
-		    'settings' => [
-		        'buttons'=>[
-		        	'source', '|', 'bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', 'brush', 'paragraph', '|','image', 'table', 'link', '|', 'left', 'center', 'right', 'justify', '|', 'undo', 'redo', '|', 'hr', 'eraser', 'fullsize'
-		        ],
-		    ],
-		]);?>
+
+		<?=\mihaildev\ckeditor\CKEditor::widget([
+			'model'=>$model,
+			'attribute'=>"slides[$key]",
+			'editorOptions' => \mihaildev\elfinder\ElFinder::ckeditorOptions(['elfinder', 'path' => '/'],[
+				'preset' => 'standart',
+				'allowedContent' => true,
+				'height'=>'400px',
+				'toolbar' => [
+					['Bold', 'Italic','Underline','-','NumberedList', 'BulletedList', '-', 'Link', 'Unlink','Styles','Font','FontSize','Format','TextColor','BGColor','-','Blockquote','CreateDiv','-','Image','Table','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Outdent','Indent','-','RemoveFormat','Source','Maximize']
+				],
+			])
+		])?>
+
 		<?=$form->field($model, "images[$key]")->widget(InputFile::className(), [
 		    'language'      => 'ru',
 		    'controller'    => 'elfinder', // вставляем название контроллера, по умолчанию равен elfinder
@@ -61,13 +67,18 @@ $_reload = Yii::$app->request->post('reload');
 		<div class="uk-float-right">
 			<?=$this->render('@worstinme/widgets/views/default/_row-buttons',['key'=>$key,'last'=>true])?>
 		</div>
-		<?=$form->field($model, "slides[$key]")->widget(\worstinme\jodit\Editor::className(), [
-		    'settings' => [
-		        'buttons'=>[
-		        	'source', '|', 'bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', 'brush', 'paragraph', '|','image', 'table', 'link', '|', 'left', 'center', 'right', 'justify', '|', 'undo', 'redo', '|', 'hr', 'eraser', 'fullsize'
-		        ],
-		    ],
-		]);?>
+		<?=\mihaildev\ckeditor\CKEditor::widget([
+			'model'=>$model,
+			'attribute'=>"slides[$key]",
+			'editorOptions' => \mihaildev\elfinder\ElFinder::ckeditorOptions(['elfinder', 'path' => '/'],[
+				'preset' => 'standart',
+				'allowedContent' => true,
+				'height'=>'400px',
+				'toolbar' => [
+					['Bold', 'Italic','Underline','-','NumberedList', 'BulletedList', '-', 'Link', 'Unlink','Styles','Font','FontSize','Format','TextColor','BGColor','-','Blockquote','CreateDiv','-','Image','Table','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Outdent','Indent','-','RemoveFormat','Source','Maximize']
+				],
+			])
+		])?>
 		<?=$form->field($model,  "images[$key]")->widget(InputFile::className(), [
 		    'language'      => 'ru',
 		    'controller'    => 'elfinder', // вставляем название контроллера, по умолчанию равен elfinder
