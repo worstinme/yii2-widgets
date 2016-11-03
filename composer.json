@@ -12,8 +12,8 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "worstinme/yii2-jodit": "*",
         "mihaildev/yii2-elfinder" : "*",
+        "mihaildev/yii2-ckeditor" : "*",
         "worstinme/yii2-uikit" : "*"
     },
     "autoload": {
