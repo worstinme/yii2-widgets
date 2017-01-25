@@ -15,12 +15,13 @@ echo Html::tag('div', '', [
 if (!empty($iconImageHref)) {
     $config = [
         'iconLayout' => 'default#image',
+        'iconImageHref'=>$iconImageHref,
     ];
-    if (!empty($iconImageSize)) {
-        $config['iconImageSize'] = $iconImageSize;
+    if (!empty($iconImageSizeW) && !empty($iconImageSizeH)) {
+        $config['iconImageSize'] = [$iconImageSizeW,$iconImageSizeH];
     }
-    if (!empty($iconImageOffset)) {
-        $config['iconImageSize'] = $iconImageOffset;
+    if (!empty($iconImageOffsetX) && !empty($iconImageOffsetY)) {
+        $config['iconImageSize'] = [$iconImageOffsetX,$iconImageOffsetY];
     }
 } else {
     $config = [

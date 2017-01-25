@@ -31,7 +31,7 @@ $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU'); ?>
         <div class="uk-width-medium-1-4">
             <?= $form->field($model, 'iconColor')->textInput(['option' => '']); ?>
         </div>
-        <div class="uk-width-medium-1-2">
+        <div class="uk-width-medium-2-6">
             <?= $form->field($model, "iconImageHref")->widget(\mihaildev\elfinder\InputFile::className(), [
                 'language' => 'ru',
                 'controller' => 'elfinder', // вставляем название контроллера, по умолчанию равен elfinder
@@ -40,11 +40,17 @@ $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU'); ?>
                 'buttonOptions' => ['class' => 'uk-button uk-button-primary'],
             ]); ?>
         </div>
-        <div class="uk-width-medium-1-4">
-            <?= $form->field($model, 'iconImageSize')->textInput(['option' => '']); ?>
+        <div class="uk-width-medium-1-6">
+            <?= $form->field($model, 'iconImageSizeW')->textInput(['option' => '']); ?>
         </div>
-        <div class="uk-width-medium-1-4">
-            <?= $form->field($model, 'iconImageOffset')->textInput(['option' => '']); ?>
+        <div class="uk-width-medium-1-6">
+            <?= $form->field($model, 'iconImageSizeH')->textInput(['option' => '']); ?>
+        </div>
+        <div class="uk-width-medium-1-6">
+            <?= $form->field($model, 'iconImageOffsetX')->textInput(['option' => '']); ?>
+        </div>
+        <div class="uk-width-medium-1-6">
+            <?= $form->field($model, 'iconImageOffsetY')->textInput(['option' => '']); ?>
         </div>
     </div>
 
@@ -62,12 +68,13 @@ $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU'); ?>
 if (!empty($model->iconImageHref)) {
     $config = [
         'iconLayout' => 'default#image',
+        'iconImageHref'=>$model->iconImageHref,
     ];
-    if (!empty($model->iconImageSize)) {
-        $config['iconImageSize'] = $model->iconImageSize;
+    if (!empty( $model->iconImageSizeW) && !empty( $model->iconImageSizeH)) {
+        $config['iconImageSize'] = [ $model->iconImageSizeW, $model->iconImageSizeH];
     }
-    if (!empty($model->iconImageOffset)) {
-        $config['iconImageSize'] = $model->iconImageOffset;
+    if (!empty( $model->iconImageOffsetX) && !empty( $model->iconImageOffsetY)) {
+        $config['iconImageSize'] = [ $model->iconImageOffsetX, $model->iconImageOffsetY];
     }
 }
 else {
