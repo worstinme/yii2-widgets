@@ -74,7 +74,7 @@ if (!empty($model->iconImageHref)) {
         $config['iconImageSize'] = [ $model->iconImageSizeW, $model->iconImageSizeH];
     }
     if (!empty( $model->iconImageOffsetX) && !empty( $model->iconImageOffsetY)) {
-        $config['iconImageSize'] = [ $model->iconImageOffsetX, $model->iconImageOffsetY];
+        $config['iconImageOffset'] = [ $model->iconImageOffsetX, $model->iconImageOffsetY];
     }
 }
 else {

@@ -21,7 +21,7 @@ if (!empty($iconImageHref)) {
         $config['iconImageSize'] = [$iconImageSizeW,$iconImageSizeH];
     }
     if (!empty($iconImageOffsetX) && !empty($iconImageOffsetY)) {
-        $config['iconImageSize'] = [$iconImageOffsetX,$iconImageOffsetY];
+        $config['iconImageOffset'] = [$iconImageOffsetX,$iconImageOffsetY];
     }
 } else {
     $config = [
