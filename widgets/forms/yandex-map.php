@@ -56,7 +56,32 @@ $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU'); ?>
 
 <?php Pjax::end(); ?>
 
-<?php $script = <<<JS
+
+<?php
+
+if (!empty($model->iconImageHref)) {
+    $config = [
+        'iconLayout' => 'default#image',
+    ];
+    if (!empty($model->iconImageSize)) {
+        $config['iconImageSize'] = $model->iconImageSize;
+    }
+    if (!empty($model->iconImageOffset)) {
+        $config['iconImageSize'] = $model->iconImageOffset;
+    }
+}
+else {
+    $config = [
+        'preset' => $model->preset,
+    ];
+    if (!empty($model->iconColor)) {
+        $config['iconColor'] = $model->iconColor;
+    }
+}
+
+$config = yii\helpers\Json::encode($config);
+
+$script = <<<JS
 
 function init() {
     var myMap = new ymaps.Map("map", {
@@ -64,17 +89,8 @@ function init() {
             zoom: $model->zoom
         }, {
             searchControlProvider: 'yandex#search'
-        });
-        
-    if ('$model->iconImageHref' != '') {
-        config = {iconLayout: 'default#image', iconImageHref: '$model->iconImageHref'};
-        if ('$model->iconImageSize' != '') config.iconImageSize = $model->iconImageSize;
-        if ('$model->iconImageOffset' != '') config.iconImageOffset = $model->iconImageOffset;
-    }
-    else {
-        config = {preset: '$model->preset'};
-        if ('$model->iconColor' != '') config.iconColor = '$model->iconColor';
-    }
+        }),
+        config = $config;
     
     myGeoObject = new ymaps.GeoObject({
         geometry: { type: "Point",coordinates: [$model->point]}

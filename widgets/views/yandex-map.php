@@ -12,6 +12,27 @@ echo Html::tag('div', '', [
     'style' => 'width:' . $width . '; height:' . $height,
 ]);
 
+if (!empty($iconImageHref)) {
+    $config = [
+        'iconLayout' => 'default#image',
+    ];
+    if (!empty($iconImageSize)) {
+        $config['iconImageSize'] = $iconImageSize;
+    }
+    if (!empty($iconImageOffset)) {
+        $config['iconImageSize'] = $iconImageOffset;
+    }
+} else {
+    $config = [
+        'preset' => $preset,
+    ];
+    if (!empty($iconColor)) {
+        $config['iconColor'] = $iconColor;
+    }
+}
+
+$config = yii\helpers\Json::encode($config);
+
 $script = <<<JS
 
 ymaps.ready(function() {
@@ -20,17 +41,8 @@ ymaps.ready(function() {
             zoom: $zoom
         }, {
             searchControlProvider: 'yandex#search'
-        });
-        
-    if ('$iconImageHref' != '') {
-        config = {iconLayout: 'default#image', iconImageHref: '$iconImageHref'};
-        if ('$iconImageSize' != '') config.iconImageSize = '$iconImageSize';
-        if ('$iconImageOffset' != '') config.iconImageOffset = '$iconImageOffset';
-    }
-    else {
-        config = {preset: '$preset'};
-        if ('$iconColor' != '') config.iconColor = '$iconColor';
-    }
+        }),
+        config = $config;
     
     myGeoObject = new ymaps.GeoObject({
         geometry: { type: "Point",coordinates: [$point]}
