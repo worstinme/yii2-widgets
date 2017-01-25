@@ -23,12 +23,12 @@ ymaps.ready(function() {
         });
         
     if ('$iconImageHref' != '') {
-        var config = {iconLayout: 'default#image', iconImageHref: '$iconImageHref'};
+        config = {iconLayout: 'default#image', iconImageHref: '$iconImageHref'};
         if ('$iconImageSize' != '') config.iconImageSize = '$iconImageSize';
         if ('$iconImageOffset' != '') config.iconImageOffset = '$iconImageOffset';
     }
     else {
-        var config = {preset: '$preset'};
+        config = {preset: '$preset'};
         if ('$iconColor' != '') config.iconColor = '$iconColor';
     }
     
