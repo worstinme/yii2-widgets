@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
+var_dump($iconImageHref);
+
 $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU'); ?>
 
 <?php Pjax::begin(['id' => 'pjax', 'timeout' => 5000, 'options' => ['data-uk-observe' => true]]); ?>
@@ -29,6 +31,21 @@ $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU'); ?>
         <div class="uk-width-medium-1-4">
             <?= $form->field($model, 'iconColor')->textInput(['option' => '']); ?>
         </div>
+        <div class="uk-width-medium-1-2">
+            <?= $form->field($model, "iconImageHref")->widget(\mihaildev\elfinder\InputFile::className(), [
+                'language' => 'ru',
+                'controller' => 'elfinder', // вставляем название контроллера, по умолчанию равен elfinder
+                'filter' => 'image',    // фильтр файлов, можно задать массив фильтров https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#wiki-onlyMimes
+                'options' => ['class' => ''],
+                'buttonOptions' => ['class' => 'uk-button uk-button-primary'],
+            ]); ?>
+        </div>
+        <div class="uk-width-medium-1-4">
+            <?= $form->field($model, 'iconImageSize')->textInput(['option' => '']); ?>
+        </div>
+        <div class="uk-width-medium-1-4">
+            <?= $form->field($model, 'iconImageOffset')->textInput(['option' => '']); ?>
+        </div>
     </div>
 
     <div id="map" class="uk-margin-top" style="height:400px;width:100%"></div>
@@ -47,12 +64,16 @@ function init() {
             zoom: $model->zoom
         }, {
             searchControlProvider: 'yandex#search'
-        }), 
+        });
         
-        config = {preset: '$model->preset', draggable: true};
-        
-    if ('$model->iconColor' != '') {
-        config.iconColor = '$model->iconColor';
+    if ('$model->iconImageHref' != '') {
+        config = {iconLayout: 'default#image', iconImageHref: '$model->iconImageHref'};
+        if ('$model->iconImageSize' != '') config.iconImageSize = $model->iconImageSize;
+        if ('$model->iconImageOffset' != '') config.iconImageOffset = $model->iconImageOffset;
+    }
+    else {
+        config = {preset: '$model->preset'};
+        if ('$model->iconColor' != '') config.iconColor = '$model->iconColor';
     }
     
     myGeoObject = new ymaps.GeoObject({

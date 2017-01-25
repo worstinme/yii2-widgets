@@ -6,10 +6,10 @@ $id = uniqid();
 
 $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU');
 
-echo Html::tag('div','',[
-    'class'=>'yandex-map',
-    'id'=>$id,
-    'style'=>'width:'.$width.'; height:'.$height,
+echo Html::tag('div', '', [
+    'class' => 'yandex-map',
+    'id' => $id,
+    'style' => 'width:' . $width . '; height:' . $height,
 ]);
 
 $script = <<<JS
@@ -20,12 +20,16 @@ ymaps.ready(function() {
             zoom: $zoom
         }, {
             searchControlProvider: 'yandex#search'
-        }), 
+        });
         
-        config = {preset: '$preset'};
-        
-    if ('$iconColor' != '') {
-        config.iconColor = '$iconColor';
+    if ('$iconImageHref' != '') {
+        var config = {iconLayout: 'default#image', iconImageHref: '$iconImageHref'};
+        if ('$iconImageSize' != '') config.iconImageSize = '$iconImageSize';
+        if ('$iconImageOffset' != '') config.iconImageOffset = '$iconImageOffset';
+    }
+    else {
+        var config = {preset: '$preset'};
+        if ('$iconColor' != '') config.iconColor = '$iconColor';
     }
     
     myGeoObject = new ymaps.GeoObject({

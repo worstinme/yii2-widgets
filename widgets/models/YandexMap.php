@@ -14,6 +14,9 @@ class YandexMap extends \yii\base\Model
     public $ballon;
     public $preset = 'islands#redCircleDotIcon';
     public $iconColor = '#3b5998';
+    public $iconImageHref;
+    public $iconImageSize;
+    public $iconImageOffset;
 
     public static function getName() {
         return 'YandexMap';
@@ -32,7 +35,7 @@ class YandexMap extends \yii\base\Model
         return [
             [['ballon'],'string'],
             [['zoom'],'integer'],
-            [['center','point','width','height','iconColor','preset'],'string','max'=>255],
+            [['center','point','width','height','iconColor','preset','iconImageHref','iconImageSize','iconImageOffset'],'string','max'=>255],
         ];
     }
 

@@ -15,6 +15,10 @@ class YandexMap extends Widget
     public $ballon;
     public $preset;
     public $iconColor;
+    public $iconImageHref;
+    public $iconImageSize;
+    public $iconImageOffset;
+
 
     public function run()
     {
@@ -26,6 +30,9 @@ class YandexMap extends Widget
             'width'=>$this->width,
             'preset'=>$this->preset,
             'iconColor'=>$this->iconColor,
+            'iconImageHref'=>$this->iconImageHref,
+            'iconImageSize'=>$this->iconImageSize,
+            'iconImageOffset'=>$this->iconImageOffset,
         ]);
     }   
 
