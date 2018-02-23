@@ -1,32 +1,24 @@
 <?php
 
-namespace worstinme\widgets; 
+namespace worstinme\widgets;
 
 use Yii;
 
 class Module extends \yii\base\Module
 {
+    /** @var string The Widgets admin layout. */
+    public $layout = '@worstinme/widgets/views/layouts/widgets.php';
     /**
      * @inheritdoc
      */
     public $controllerNamespace = 'worstinme\widgets\controllers';
 
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    public function getNav()
     {
-        parent::init();
-
-        $this->registerTranslations();
-    }
-
-    public function registerTranslations()
-    {
-        Yii::$app->i18n->translations['widgets'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'sourceLanguage' => 'en-GB',
-            'basePath' => '@worstinme/widgets/messages',
-        ];
+        return array_filter([
+            ['label' => Yii::t('widgets', 'NAV_WIDGETS'), 'url' => ['/widgets/default/index'], 'items' => [
+                ['label' => Yii::t('widgets', 'NAV_WIDGET_CREATE'), 'url' => ['/widgets/default/create']],
+            ]],
+        ]);
     }
 }
