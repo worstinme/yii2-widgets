@@ -3,227 +3,261 @@
 namespace worstinme\widgets;
 
 use Yii;
+use yii\base\BootstrapInterface;
+use yii\base\Event;
 use yii\helpers\FileHelper;
 use yii\helpers\Json;
 use worstinme\widgets\models\Widgets;
 use worstinme\widgets\models\WidgetsSearch;
 use worstinme\widgets\helpers\ShortcodeHelper;
+use yii\i18n\PhpMessageSource;
+use yii\web\Response;
+use yii\web\View;
 
-class Component extends \yii\base\Component { 
+class Component extends \yii\base\Component implements BootstrapInterface
+{
+    /** @var boolean load backend module? */
+    public $backend = false;
 
-	public $languages = ['ru'=>'Русский','en'=>'English'];
-	public $callbacks = [];
+    /** @var boolean load frontend callbacks? */
+    public $frontend = false;
 
-	public $customWidgetsPath;
-	public $customWidgetsNamespace;
-	public $attachWidget = [];
+    /** @var array application content languages * */
+    public $languages = [];
 
-	private $widgets;
-	private $widgetModels;
-	private $bounds;
+    /**
+     * @var string The prefix for user module URL.
+     *
+     * @See [[GroupUrlRule::prefix]]
+     */
+    public $urlPrefix = 'widgets';
 
-	public function findShortcodes($content) {
+    /** @var array The rules to be used in URL management. */
+    public $urlRules = [
+        '' => 'default/index',
+        '<action:(\w|-)+>' => 'default/<action>',
+        '<controller:\w+>/<action:(\w|-)+>' => '<controller>/<action>',
+    ];
 
-		$shortcode = new ShortcodeHelper;
-		$shortcode->callbacks = $this->callbacks();
+    /** @var array List of roles with access to admin'a part of application. */
+    public $accessRoles = ['admin'];
 
-		return $shortcode->parse($content);
-	}
+    public $callbacks = [];
 
-	public function callbacks() {
-		
-		return array_merge([
-			'uk-slideshow'=>['worstinme\uikit\widgets\Slideshow','widget'],
-			'widget'=>['worstinme\zoo\widgets\Widget','widget'],
-			//'anothershortcode'=>function($attrs, $content, $tag){},
-		],$this->callbacks);
-	}
+    public $customWidgetsPath;
+    public $customWidgetsNamespace;
+    public $attachWidget = [];
 
-	public function render($position) {
+    private $widgets;
+    private $widgetModels;
 
-		$out = '';
+    public function init()
+    {
+        $this->callbacks = array_merge([
+            'widget'=>['worstinme\widgets\callbacks\Widget','widget'],
+            'position'=>['worstinme\widgets\callbacks\Position','widget'],
+            //'anothershortcode'=>function($attrs, $content, $tag){},
+        ],$this->callbacks);
 
-		if (!empty($position)) {
+        parent::init();
+    }
 
-			$key = 'worstinme_widgets_'.$position.'_'.Yii::$app->language;
+    public function callWidget($widget)
+    {
 
-			//Yii::$app->cache->flush();
-
-    		$data = Yii::$app->cache->get($key);
-
-    		if ($data === false) {
-
-				$widgets = Widgets::find()
-					->where(['state'=>1,'position'=>$position,'lang'=>['',null,Yii::$app->language]])
-					->with('bounds')
-					->orderBY('sort')
-					->all();
-
-				$data = \yii\helpers\ArrayHelper::toArray($widgets, [
-				    'worstinme\widgets\models\Widgets' => [
-				        'callback'=>'widget',
-				        'bounds' => function ($model) {
-				        	$bounds = ['only'=>[],'except'=>[]];
-				        	if (count($model->bounds)) {
-				        	foreach ($model->bounds as $bound) {	
-				        		if ($bound['except']) {
-				        			$bounds['except'][] = $bound['module'].'/'. $bound['controller'].'/'. $bound['action'];
-				        		}			        
-				        		else {
-				        			$bounds['only'][] = $bound['module'].'/'. $bound['controller'].'/'. $bound['action'];
-				        		}	
-				        	}
-				        	}
-				            return $bounds;
-				        },
-				        'params' => function ($model) {
-				        	$params = $model->getParams();
-				        	$params['options'] = ['class'=>$model->css_class];
-							$params['cache'] = $model->cache;
-							$params['name'] = $model->name;
-							$params['id'] = $model->id;
-				            return $params;
-				        },
-				    ],
-				]);
-
-				$dependency = new \yii\caching\ChainedDependency([
-					'dependencies'=> [
-						new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM {{%widgets}}'])
-					],
-				]);
-    			
-    			Yii::$app->cache->set($key, $data, 0, $dependency);
-
-    		}
-
-    		$this->getWidgets();
-
-			foreach ($data as $widget) {
-
-				$out .= $this->callWidget($widget);
-
-			}
-
-
-		}
-
-		return $out;
-
-	}
-
-	public function callWidget($widget) {
-
-	    if ($this->widgets === null)
+        if ($this->widgets === null)
             $this->getWidgets();
 
-		if (!empty($this->widgets[$widget['callback']])) {
-			if (!isset($widget['bounds']) || $this->checkBounds($widget['bounds'])) {
-				return call_user_func([$this->widgets[$widget['callback']],'widget'], $widget['params']);
-			}
-		}
+        if (!empty($this->widgets[$widget['callback']])) {
+            if (!isset($widget['bounds']) || $this->checkBounds($widget['bounds'])) {
+                return call_user_func([$this->widgets[$widget['callback']], 'widget'], $widget['params']);
+            }
+        }
 
-	}
+    }
 
-	public function getWidgetsModels() {
+    public function getWidgetsModels()
+    {
 
-		if ($this->widgetModels === null) {
+        if ($this->widgetModels === null) {
 
-	        $widgets = [];
+            $widgets = [];
 
-	        $paths = ['worstinme\widgets\widgets\models'=>'@worstinme/widgets/widgets/models'];
+            $paths = ['worstinme\widgets\widgets\models' => '@worstinme/widgets/widgets/models'];
 
-	        if (Yii::$app->has('zoo')) {
-	        	$paths['worstinme\zoo\widgets\models'] = '@worstinme/zoo/widgets/models';
-	        }
+            if (Yii::$app->has('zoo')) {
+                $paths['worstinme\widgets\zoo\models'] = '@worstinme/widgets/zoo/models';
+            }
 
-	        if ($this->customWidgetsPath !== null && $this->customWidgetsNamespace !== null) {
-	        	$paths[$this->customWidgetsNamespace.'\\models'] = rtrim($this->customWidgetsPath,'/').'/models';
-	        }
+            if ($this->customWidgetsPath !== null && $this->customWidgetsNamespace !== null) {
+                $paths[$this->customWidgetsNamespace . '\\models'] = rtrim($this->customWidgetsPath, '/') . '/models';
+            }
 
-	        foreach ($paths as $namespace => $path) {
+            foreach ($paths as $namespace => $path) {
 
-	        	$path = rtrim(Yii::getAlias($path),DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+                $path = rtrim(Yii::getAlias($path), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-	        	$widgetModels = \yii\helpers\FileHelper::findFiles($path);
+                $widgetModels = \yii\helpers\FileHelper::findFiles($path);
 
-		        foreach ($widgetModels as $key => $model) { 
-			        $model = str_replace([$path,'.php'], '', $model);
-			        $widgets[$model] = rtrim($namespace,"\\")."\\".$model;
-			    }
+                foreach ($widgetModels as $key => $model) {
+                    $model = str_replace([$path, '.php'], '', $model);
+                    $widgets[$model] = rtrim($namespace, "\\") . "\\" . $model;
+                }
 
-	        }
+            }
 
-	        $this->widgetModels = $widgets;
+            $this->widgetModels = $widgets;
 
         }
 
         return $this->widgetModels;
     }
 
-    public function getWidgets() {
+    public function getWidgets()
+    {
 
-		if ($this->widgets === null) {
+        if ($this->widgets === null) {
 
-	        $widgets = [];
+            $widgets = [];
 
-	        $paths = ['worstinme\widgets\widgets'=>'@worstinme/widgets/widgets'];
+            $paths = ['worstinme\widgets\widgets' => '@worstinme/widgets/widgets'];
 
-	        if (Yii::$app->has('zoo')) {
-	        	$paths['worstinme\zoo\widgets'] = '@worstinme/zoo/widgets';
-	        }
+            if (Yii::$app->has('zoo')) {
+                $paths['worstinme\widgets\zoo'] = '@worstinme/widgets/zoo';
+            }
 
-	        if ($this->customWidgetsPath !== null && $this->customWidgetsNamespace !== null) {
-	        	$paths[$this->customWidgetsNamespace] = $this->customWidgetsPath;
-	        }
+            if ($this->customWidgetsPath !== null && $this->customWidgetsNamespace !== null) {
+                $paths[$this->customWidgetsNamespace] = $this->customWidgetsPath;
+            }
 
 
+            foreach ($paths as $namespace => $path) {
 
-	        foreach ($paths as $namespace => $path) {
+                $path = rtrim(Yii::getAlias($path), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-	        	$path = rtrim(Yii::getAlias($path),DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+                $widgetModels = \yii\helpers\FileHelper::findFiles($path);
 
-	        	$widgetModels = \yii\helpers\FileHelper::findFiles($path);
+                foreach ($widgetModels as $key => $model) {
+                    $model = str_replace([$path, ".php"], '', $model);
+                    $widgets[$model] = rtrim($namespace, "\\") . "\\" . $model;
+                }
 
-		        foreach ($widgetModels as $key => $model) {
-			        $model = str_replace([$path,".php"], '', $model);
-			        $widgets[$model] = rtrim($namespace,"\\")."\\".$model;
-			    }
+            }
 
-	        }
-
-	        $this->widgets = $widgets;
+            $this->widgets = $widgets;
 
         }
 
         return $this->widgets;
     }
 
-    public function checkBounds($bounds) {
+    public function checkBounds($bounds)
+    {
 
-    	$m = Yii::$app->controller->module->id;
-    	$c = Yii::$app->controller->id;
-    	$a = Yii::$app->controller->action->id;
+        $m = Yii::$app->controller->module->id;
+        $c = Yii::$app->controller->id;
+        $a = Yii::$app->controller->action->id;
 
-    	$except = $bounds['except'];
-    	$only = $bounds['only'];
+        $except = $bounds['except'];
+        $only = $bounds['only'];
 
-    	if (in_array('//'.$a, $except) || in_array('/'.$c.'/'.$a, $except) || in_array($m.'/'.$c.'/'.$a, $except)) {
-    		return false;
-    	}
+        if (in_array('//' . $a, $except) || in_array('/' . $c . '/' . $a, $except) || in_array($m . '/' . $c . '/' . $a, $except)) {
+            return false;
+        }
 
-    	if (count($only)) {
-    		
-    		if (in_array('//'.$a, $only) || in_array('/'.$c.'/'.$a, $only) || in_array($m.'/'.$c.'/'.$a, $only)) {
-    			return true;
-    		}
+        if (count($only)) {
 
-    		return false;
+            if (in_array('//' . $a, $only) || in_array('/' . $c . '/' . $a, $only) || in_array($m . '/' . $c . '/' . $a, $only)) {
+                return true;
+            }
 
-    	}
-    		
-    	return true;
+            return false;
 
+        }
+
+        return true;
+
+    }
+
+    /** @inheritdoc */
+    public function bootstrap($app)
+    {
+        /* @var $module Module */
+
+        if ($app instanceof \yii\web\Application) {
+
+
+            if ($this->frontend) {
+
+                //Render widgets
+                $app->response->on(\yii\web\Response::EVENT_BEFORE_SEND, function (\yii\base\Event $event) use ($app) {
+                    /**
+                     * @var $view View
+                     */
+                    $response = $event->sender;
+
+                    if ($response->format == \yii\web\Response::FORMAT_HTML) {
+                        \Yii::beginProfile('Rendering widgets');
+
+                        if (!empty($response->data)) {
+                            $response->data = $this->processing($response->data);
+                        }
+
+                        if (!empty($response->content)) {
+                            $response->content = $this->processing($response->content);
+                        }
+
+                        \Yii::endProfile('Rendering widgets');
+                    }
+
+                });
+            }
+
+            if ($this->backend) {
+
+                if (!$app->hasModule('widgets')) {
+
+                    $configUrlRule = [
+                        'class' => 'yii\web\GroupUrlRule',
+                        'prefix' => $this->urlPrefix,
+                        'rules' => $this->urlRules,
+                    ];
+
+                    if ($this->urlPrefix != 'widgets') {
+                        $configUrlRule['routePrefix'] = 'widgets';
+                    }
+
+                    $rule = Yii::createObject($configUrlRule);
+
+                    $app->urlManager->addRules([$rule], false);
+
+                    $app->setModule('widgets', [
+                        'class' => Module::className(),
+                    ]);
+
+                    if (!isset($app->get('i18n')->translations['widgets*'])) {
+                        $app->get('i18n')->translations['widgets*'] = [
+                            'class' => PhpMessageSource::className(),
+                            'basePath' => '@worstinme/widgets/messages',
+                            'sourceLanguage' => 'en-US'
+                        ];
+                    }
+
+                }
+            }
+
+        }
+
+    }
+
+    /**
+     * @param View $view
+     */
+    protected function processing($html)
+    {
+        $shortcode = new ShortcodeHelper();
+        $shortcode->callbacks = $this->callbacks;
+        return $shortcode->parse($html);
     }
 
 }
