@@ -1,11 +1,11 @@
 <?php
 
-namespace worstinme\widgets\widgets;
+namespace worstinme\widgets\callbacks;
 
 use worstinme\widgets\models\Widgets;
 use Yii;
 
-class WidgetId extends \yii\base\Widget
+class Widget extends \yii\base\Widget
 {
     public $id;
 
