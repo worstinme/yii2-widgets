@@ -14,7 +14,6 @@
         "yiisoft/yii2": "*",
         "mihaildev/yii2-elfinder" : "*",
         "mihaildev/yii2-ckeditor" : "*",
-        "worstinme/yii2-uikit" : "*",
         "conquer/codemirror": "^2.0"
     },
     "autoload": {
