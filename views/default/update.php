@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Json;
-use worstinme\uikit\ActiveForm;
+use worstinme\widgets\helpers\ActiveForm;
 
 $this->title = $model->isNewRecord ? 'Созадние виджета' : 'Настройка виджета';
 $this->params['breadcrumbs'][] = $this->title;
@@ -11,15 +11,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="applications items-create">
 
-<?php $form = ActiveForm::begin(['id'=>'widget-form','layout'=>'stacked','field_width'=>'full','options'=>['data'=>['pjax'=>1]]]); ?>    
+<?php $form = ActiveForm::begin(['id'=>'widget-form','options'=>['class'=>'uk-form-stacked','data'=>['pjax'=>1]]]); ?>
 
-<div class="uk-grid uk-grid-small">
+<div class="uk-grid uk-grid-small" uk-grid>
     
-    <div class="uk-width-medium-4-5">
+    <div class="uk-width-4-5@m">
 
         <div class="uk-panel-box">
 
-        	<?= $form->field($model, 'name')->textInput(); ?>
+        	<?= $form->field($model, 'name')->textInput(['class'=>'uk-input']); ?>
 
             <hr>
 
@@ -40,32 +40,32 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $key = -1; if (count($model->bound)): ?>
                 <?php foreach ($model->bound as $key => $value): ?>
                 <div class="uk-grid uk-grid-small">
-                    <div class="uk-width-medium-1-4">
-                        <?= Html::activeTextInput($model, "bound[$key][module]", ['class' => 'uk-width-1-1','placeholder'=>'module']); ?>
+                    <div class="uk-width-1-4@m">
+                        <?= Html::activeTextInput($model, "bound[$key][module]", ['class' => 'uk-input','placeholder'=>'module']); ?>
                     </div>
-                    <div class="uk-width-medium-1-4">
-                        <?= Html::activeTextInput($model, "bound[$key][controller]", ['class' => 'uk-width-1-1','placeholder'=>'controller']); ?>
+                    <div class="uk-width-1-4@m">
+                        <?= Html::activeTextInput($model, "bound[$key][controller]", ['class' => 'uk-input','placeholder'=>'controller']); ?>
                     </div>
-                    <div class="uk-width-medium-1-4">
-                        <?= Html::activeTextInput($model, "bound[$key][action]", ['class' => 'uk-width-1-1','placeholder'=>'action']); ?>
+                    <div class="uk-width-1-4@m">
+                        <?= Html::activeTextInput($model, "bound[$key][action]", ['class' => 'uk-input','placeholder'=>'action']); ?>
                     </div>
-                    <div class="uk-width-medium-1-4">
+                    <div class="uk-width-1-4@m">
                         <?= Html::activeCheckbox($model, "bound[$key][except]", ['label' => 'except']); ?>
                     </div>
                 </div>
                 <?php endforeach ?>
             <?php else: ?>
                 <div class="uk-grid uk-grid-small">
-                    <div class="uk-width-medium-1-4">
-                        <?= Html::activeTextInput($model, "bound[$key][module]", ['class' => 'uk-width-1-1','placeholder'=>'module']); ?>
+                    <div class="uk-width-1-4@m">
+                        <?= Html::activeTextInput($model, "bound[$key][module]", ['class' => 'uk-input','placeholder'=>'module']); ?>
                     </div>
-                    <div class="uk-width-medium-1-4">
-                        <?= Html::activeTextInput($model, "bound[$key][controller]", ['class' => 'uk-width-1-1','placeholder'=>'controller']); ?>
+                    <div class="uk-width-1-4@m">
+                        <?= Html::activeTextInput($model, "bound[$key][controller]", ['class' => 'uk-input','placeholder'=>'controller']); ?>
                     </div>
-                    <div class="uk-width-medium-1-4">
-                        <?= Html::activeTextInput($model, "bound[$key][action]", ['class' => 'uk-width-1-1','placeholder'=>'action']); ?>
+                    <div class="uk-width-1-4@m">
+                        <?= Html::activeTextInput($model, "bound[$key][action]", ['class' => 'uk-input','placeholder'=>'action']); ?>
                     </div>
-                    <div class="uk-width-medium-1-4">
+                    <div class="uk-width-1-4@m">
                         <?= Html::activeCheckbox($model, "bound[$key][except]", ['label' => 'except']); ?>
                     </div>
                 </div>
@@ -80,26 +80,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	</div>
 
-	<div class="uk-width-medium-1-5">
+	<div class="uk-width-1-5@m">
 
         <div class="uk-panel-box">
 
-        	<?= $form->field($model, 'widget')->textInput(['disabled'=>'disabled']); ?>
+        	<?= $form->field($model, 'widget')->textInput(['class'=>'uk-input','disabled'=>'disabled']); ?>
 
-            <?= $form->field($model, 'position')->textInput(['option' => 'value']); ?>
+            <?= $form->field($model, 'position')->textInput(['class'=>'uk-input']); ?>
 
-            <?= $form->field($model, 'state')->checkbox(); ?>
+            <?= $form->field($model, 'state')->checkbox(['class'=>'uk-checkbox']); ?>
 
-            <?= $form->field($model, 'cache')->checkbox(['option' => 'value']); ?>
+            <?= $form->field($model, 'cache')->checkbox(['class'=>'uk-checkbox']); ?>
 
-            <?= $form->field($model, 'lang')->dropDownList(Yii::$app->widgets->languages, ['prompt' => 'Все языки']); ?>
+            <?= $form->field($model, 'lang')->dropDownList(Yii::$app->widgets->languages, ['class'=>'uk-select','prompt' => 'Все языки']); ?>
 
-            <?= $form->field($model, 'css_class')->textInput(); ?>
+            <?= $form->field($model, 'css_class')->textInput(['class'=>'uk-input']); ?>
 
         </div>
 
         <div class="uk-margin-top">
-		    <?=Html::submitButton('Сохранить',['name'=>'submitButton','value'=>1,'class'=>'uk-button uk-button-success uk-width-1-1'])?>
+		    <?=Html::submitButton('Сохранить',['name'=>'submitButton','value'=>1,'class'=>'uk-button uk-button-primary uk-input'])?>
 		</div>
 
     </div>
@@ -114,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $('body').on("click","[data-copy-row]",function(){
     var key = Number($(this).data("copy-row"));
-    var row = '<div class="uk-grid uk-grid-small"><div class="uk-width-medium-1-4"><input type="text" class="uk-width-1-1" name="Widgets[bound]['+key+'][module]" placeholder="module"></div><div class="uk-width-medium-1-4"><input type="text" class="uk-width-1-1" name="Widgets[bound]['+key+'][controller]" placeholder="controller"></div><div class="uk-width-medium-1-4"><input type="text" class="uk-width-1-1" name="Widgets[bound]['+key+'][action]" placeholder="action"></div><div class="uk-width-medium-1-4"><input type="hidden" name="Widgets[bound]['+key+'][except]" value="0"><label><input type="checkbox" name="Widgets[bound]['+key+'][except]" value="1"> except</label></div></div>';
+    var row = '<div class="uk-grid uk-grid-small"><div class="uk-width-1-4@m"><input type="text" class="uk-input" name="Widgets[bound]['+key+'][module]" placeholder="module"></div><div class="uk-width-1-4@m"><input type="text" class="uk-input" name="Widgets[bound]['+key+'][controller]" placeholder="controller"></div><div class="uk-width-1-4@m"><input type="text" class="uk-input" name="Widgets[bound]['+key+'][action]" placeholder="action"></div><div class="uk-width-1-4@m"><input type="hidden" name="Widgets[bound]['+key+'][except]" value="0"><label><input type="checkbox" name="Widgets[bound]['+key+'][except]" value="1"> except</label></div></div>';
     $(this).before(row);
     $(this).data("copy-row",key+1);
 }).on("click","[data-up]",function(e){

@@ -1,3 +1,3 @@
-<li class="uk-nestable-item" data-item-id=<?=$model->id?>>
-<div class="uk-nestable-panel"><i class="uk-nestable-handle uk-icon-bars"></i> <?=$model->name?></div>
+<li data-item-id=<?= $model->id ?>>
+    <span class="uk-sortable-handle uk-margin-small-right" uk-icon="icon: table"></span> <?= $model->name ?>
 </li>
