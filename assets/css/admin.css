@@ -1,0 +1,21 @@
+.widgets .uk-table-small td, .widgets .uk-table-small th {
+    padding: 4px 6px;
+}
+.widgets .uk-table-striped thead tr+tr {
+    border-top: 1px solid #e5e5e5;
+}
+.widgets .uk-table-small td,.widgets .uk-table-small th {
+    padding: 2px 5px;
+}
+.widgets tr.filters td input,.widgets tr.filters td {
+    padding:0;
+}
+.widgets tr.filters td input,.widgets tr.filters td select {
+    border:none;
+    width:100%;
+    display:block;
+    padding:0 5px;
+    background: #eff8fd;
+    height: 27px;
+    border-right: 1px solid #fff;
+}
