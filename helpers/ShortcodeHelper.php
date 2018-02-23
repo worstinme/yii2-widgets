@@ -1,6 +1,6 @@
 <?php
 
-namespace worstinme\zoo\helpers;
+namespace worstinme\widgets\helpers;
 
 use Yii;
 
@@ -14,7 +14,7 @@ class ShortcodeHelper {
         $shortcodes = $this->getShortcodeList($content);
         foreach ($shortcodes as $shortcode) {
             // Only process known/supported shortcodes
-            if (in_array($shortcode, array_keys($this->callbacks))) {
+            if (array_key_exists($shortcode, $this->callbacks)) {
                 $regexp = $this->getShortcodeRegexp($shortcode);
                 $result = preg_replace_callback("/$regexp/s", array($this, 'parseSingle'), $result);
             }
