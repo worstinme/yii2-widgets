@@ -9,36 +9,27 @@ use yii\web\NotFoundHttpException;
 
 class DefaultController extends \yii\web\Controller
 {
-
-
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
-                'only' => ['index', 'update', 'delete','create'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'update', 'delete','create'],
-                        'roles' => ['admin','widgets-admin'],
+                        'roles' => Yii::$app->widgets->accessRoles,
                     ],
                 ],
             ],
+
             'verbs' => [
                 'class' => \yii\filters\VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post','delete'],
-                    //'sort' => ['post'],
                 ],
             ],
-        ];
-    }
 
-    public function render($view, $params = [])
-    {
-        \worstinme\widgets\assets\AdminAsset::register($this->view);
-        return parent::render($view, $params);
+        ];
     }
 
     public function actionIndex()
