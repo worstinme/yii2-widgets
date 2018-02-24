@@ -54,10 +54,10 @@ class Component extends \yii\base\Component implements BootstrapInterface
     public function init()
     {
         $this->callbacks = array_merge([
-            'widget'=>['worstinme\widgets\callbacks\Widget','widget'],
-            'position'=>['worstinme\widgets\callbacks\Position','widget'],
+            'widget' => ['worstinme\widgets\callbacks\Widget', 'widget'],
+            'position' => ['worstinme\widgets\callbacks\Position', 'widget'],
             //'anothershortcode'=>function($attrs, $content, $tag){},
-        ],$this->callbacks);
+        ], $this->callbacks);
 
         parent::init();
     }
@@ -97,11 +97,15 @@ class Component extends \yii\base\Component implements BootstrapInterface
 
                 $path = rtrim(Yii::getAlias($path), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-                $widgetModels = \yii\helpers\FileHelper::findFiles($path);
+                if (is_dir($path)) {
 
-                foreach ($widgetModels as $key => $model) {
-                    $model = str_replace([$path, '.php'], '', $model);
-                    $widgets[$model] = rtrim($namespace, "\\") . "\\" . $model;
+                    $widgetModels = \yii\helpers\FileHelper::findFiles($path, ['only' => ['*.php']]);
+
+                    foreach ($widgetModels as $key => $model) {
+                        $model = str_replace([$path, '.php'], '', $model);
+                        $widgets[$model] = rtrim($namespace, "\\") . "\\" . $model;
+                    }
+
                 }
 
             }
@@ -135,11 +139,15 @@ class Component extends \yii\base\Component implements BootstrapInterface
 
                 $path = rtrim(Yii::getAlias($path), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-                $widgetModels = \yii\helpers\FileHelper::findFiles($path);
+                if (is_dir($path)) {
 
-                foreach ($widgetModels as $key => $model) {
-                    $model = str_replace([$path, ".php"], '', $model);
-                    $widgets[$model] = rtrim($namespace, "\\") . "\\" . $model;
+                    $widgetModels = \yii\helpers\FileHelper::findFiles($path, ['only' => ['*.php']]);
+
+                    foreach ($widgetModels as $key => $model) {
+                        $model = str_replace([$path, ".php"], '', $model);
+                        $widgets[$model] = rtrim($namespace, "\\") . "\\" . $model;
+                    }
+
                 }
 
             }
