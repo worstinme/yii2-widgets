@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         	<?= $this->render($model->widgetModel->formView,[
         		'model'=>$model->widgetModel,
+                'widget'=>$model,
                 'form'=>$form,
         	]); ?>
 
