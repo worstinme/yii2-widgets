@@ -19,7 +19,7 @@ class Widgets extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['widget', 'name','position'], 'required','when'=>function($model){return Yii::$app->request->post('reload') === null;}, 'whenClient' => "function (attribute, value) { return $('input[name=\"reload\"]').length == 0; }"],
+            [['widget', 'name'], 'required','when'=>function($model){return Yii::$app->request->post('reload') === null;}, 'whenClient' => "function (attribute, value) { return $('input[name=\"reload\"]').length == 0; }"],
             [['params'], 'string'],
             [['widget', 'name','css_class','position'], 'string','max'=>255],
             [['lang'], 'string','max'=>255,'skipOnEmpty'=>true],
