@@ -22,6 +22,10 @@ class Component extends \yii\base\Component implements BootstrapInterface
     /** @var boolean load frontend callbacks? */
     public $frontend = false;
 
+    public $baseUrl = '';
+
+    public $basePath = '@web';
+
     /** @var array application content languages * */
     public $languages = [];
 
@@ -99,7 +103,7 @@ class Component extends \yii\base\Component implements BootstrapInterface
 
                 if (is_dir($path)) {
 
-                    $widgetModels = \yii\helpers\FileHelper::findFiles($path, ['only' => ['*.php']]);
+                    $widgetModels = \yii\helpers\FileHelper::findFiles($path, ['only' => ['*.php'],'except'=>['*Items.php']]);
 
                     foreach ($widgetModels as $key => $model) {
                         $model = str_replace([$path, '.php'], '', $model);
@@ -141,7 +145,7 @@ class Component extends \yii\base\Component implements BootstrapInterface
 
                 if (is_dir($path)) {
 
-                    $widgetModels = \yii\helpers\FileHelper::findFiles($path, ['only' => ['*.php']]);
+                    $widgetModels = \yii\helpers\FileHelper::findFiles($path, ['only' => ['*.php'],'except'=>['*Items.php']]);
 
                     foreach ($widgetModels as $key => $model) {
                         $model = str_replace([$path, ".php"], '', $model);
@@ -252,6 +256,28 @@ class Component extends \yii\base\Component implements BootstrapInterface
                     }
 
                 }
+
+                if (array_key_exists('elfinder',$app->controllerMap)) {
+
+                    $roots = $app->controllerMap['elfinder']['roots'];
+
+                    $root = [
+                        'path' => '/images/',
+                        'name' => $this->basePath.'/images',
+                        'baseUrl'=> $this->baseUrl,
+                        'basePath'=> $this->basePath,
+                    ];
+
+                    $roots[] = $root;
+
+                    $app->controllerMap['elfinder']['roots'] = $roots;
+
+                    if (!is_dir(Yii::getAlias($root['basePath'] . $root['path']))) {
+                        mkdir(Yii::getAlias($root['basePath'] . $root['path']), 0757, true);
+                    }
+
+                }
+
             }
 
         }
