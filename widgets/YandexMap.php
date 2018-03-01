@@ -21,7 +21,6 @@ class YandexMap extends Widget
     public $iconImageSizeH;
     public $iconImageOffsetY;
 
-
     public function run()
     {
         return $this->render('yandex-map',[

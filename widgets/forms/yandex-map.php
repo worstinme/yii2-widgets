@@ -68,16 +68,15 @@ $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU'); ?>
 if (!empty($model->iconImageHref)) {
     $config = [
         'iconLayout' => 'default#image',
-        'iconImageHref'=>$model->iconImageHref,
+        'iconImageHref' => $model->iconImageHref,
     ];
-    if (!empty( $model->iconImageSizeW) && !empty( $model->iconImageSizeH)) {
-        $config['iconImageSize'] = [ $model->iconImageSizeW, $model->iconImageSizeH];
+    if (!empty($model->iconImageSizeW) && !empty($model->iconImageSizeH)) {
+        $config['iconImageSize'] = [$model->iconImageSizeW, $model->iconImageSizeH];
     }
     if ($model->iconImageOffsetX !== null && $model->iconImageOffsetY !== null) {
-        $config['iconImageOffset'] = [ $model->iconImageOffsetX, $model->iconImageOffsetY];
+        $config['iconImageOffset'] = [$model->iconImageOffsetX, $model->iconImageOffsetY];
     }
-}
-else {
+} else {
     $config = [
         'preset' => $model->preset,
     ];
@@ -85,6 +84,8 @@ else {
         $config['iconColor'] = $model->iconColor;
     }
 }
+
+$config['draggable'] = true;
 
 $config = yii\helpers\Json::encode($config);
 
@@ -99,8 +100,8 @@ function init() {
         }),
         config = $config;
     
-    myGeoObject = new ymaps.GeoObject({
-        geometry: { type: "Point",coordinates: [$model->point]}
+    myGeoObject = new ymaps.Placemark([$model->point], {
+        
     }, config);
 
     myMap.geoObjects.add(myGeoObject);
@@ -116,6 +117,7 @@ function init() {
     
     myGeoObject.events.add('dragend', function (event) {
         $('#yandexmap-point').val(myGeoObject.geometry.getCoordinates());
+        console.log(myGeoObject.geometry.getCoordinates());
     });
 }
 
