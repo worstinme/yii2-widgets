@@ -66,6 +66,10 @@ class Component extends \yii\base\Component implements BootstrapInterface
         parent::init();
     }
 
+    public function renderWidget($id) {
+        return \worstinme\widgets\callbacks\Widget::widget(['id'=>$id]);
+    }
+
     public function callWidget($widget)
     {
 
