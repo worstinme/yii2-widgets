@@ -14,6 +14,7 @@ class SlideshowItems extends \worstinme\widgets\models\WidgetsItems {
         return [
             ['caption','string'],
             ['image','string','max'=>255],
+            [['image'],'required'],
         ];
     }
 
