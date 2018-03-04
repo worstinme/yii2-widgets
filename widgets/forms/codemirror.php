@@ -1,14 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use worstinme\uikit\ActiveForm;
 use conquer\codemirror\CodemirrorWidget;
 use conquer\codemirror\CodemirrorAsset;
 
-
-$form = ActiveForm::begin(['layout' => 'horizontal', 'field_width' => 'full']); ?>
-
-<?= $form->field($model, 'content')->widget(
+echo $form->field($model, 'content')->widget(
     CodemirrorWidget::className(),
     [
         'assets' => [
@@ -26,5 +22,3 @@ $form = ActiveForm::begin(['layout' => 'horizontal', 'field_width' => 'full']); 
         ],
     ]
 ); ?>
-
-<?php ActiveForm::end(); ?>
