@@ -70,6 +70,10 @@ class Component extends \yii\base\Component implements BootstrapInterface
         return \worstinme\widgets\callbacks\Widget::widget(['id'=>$id]);
     }
 
+    public function renderPosition($position) {
+        return \worstinme\widgets\callbacks\Position::widget(['name'=>$position]);
+    }
+
     public function callWidget($widget)
     {
 
