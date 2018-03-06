@@ -61,6 +61,7 @@ use yii\widgets\Pjax;
 <?= $form->field($model, 'columns_m')->textInput(['class'=>'uk-input','placeholder' => 'Количество колонок 960px+']); ?>
 <?= $form->field($model, 'columns_s')->textInput(['class'=>'uk-input','placeholder' => 'Количество колонок 960px-']); ?>
 <?= $form->field($model, 'slideset')->checkbox(['class'=>'uk-checkbox']); ?>
+<?= $form->field($model, 'lightbox')->checkbox(['class'=>'uk-checkbox']); ?>
 
 <?php Pjax::end(); ?>
 

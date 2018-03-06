@@ -10,6 +10,7 @@ class Images extends \yii\base\Model
     public $columns_s;
     public $layout;
     public $slideset;
+    public $lightbox = 1;
 
     public static function getName() {
         return 'Images';
@@ -31,7 +32,7 @@ class Images extends \yii\base\Model
     {
         return [
             [['columns_m','columns_s'],'integer'],
-            ['slideset','boolean'],
+            [['slideset','lightbox'],'boolean'],
         ];
     }
 

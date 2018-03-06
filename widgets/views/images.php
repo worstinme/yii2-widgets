@@ -16,10 +16,14 @@ $class = 'uk-grid uk-grid-medium uk-child-width-1-' . $this->context->columns_s 
 <?php if ($this->context->slideset) : ?>
 
     <div class="uk-position-relative uk-visible-toggle uk-light" uk-slider="finite: true">
-        <ul class="uk-slider-items <?= $class ?>" uk-lightbox>
+        <ul class="uk-slider-items <?= $class ?>"<?=$this->context->lightbox?' uk-lightbox':''?>>
             <?php foreach ($items as $item): ?>
                 <li>
-                    <?= Html::a(Html::img(ImageHelper::thumbnailFileUrl(Yii::getAlias(Yii::$app->widgets->basePath) . $item['image'], 275, 275,ImageHelper::THUMBNAIL_OUTBOUND), ['class' => 'uk-width-responsive', 'alt' => $item['alt'], 'title' => $image['title']]), $item['image'], ['data-caption' => $item['caption']]) ?>
+                    <?php if ($this->context->lightbox) : ?>
+                        <?= Html::a(Html::img(ImageHelper::thumbnailFileUrl(Yii::getAlias(Yii::$app->widgets->basePath) . $item['image'], 275, 275,ImageHelper::THUMBNAIL_OUTBOUND), ['class' => 'uk-width-responsive', 'alt' => $item['alt'], 'title' => $image['title']]), $item['image'], ['data-caption' => $item['caption']]) ?>
+                    <?php else: ?>
+                        <?= Html::img(ImageHelper::thumbnailFileUrl(Yii::getAlias(Yii::$app->widgets->basePath) . $item['image'], 275, 275,ImageHelper::THUMBNAIL_OUTBOUND), ['class' => 'uk-width-responsive', 'alt' => $item['alt'], 'title' => $image['title']]) ?>
+                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
         </ul>

@@ -13,6 +13,7 @@ class Images extends Widget
     public $columns_s;
     public $layout;
     public $slideset;
+    public $lightbox;
 
     public function run()
     {
