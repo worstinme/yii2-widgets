@@ -54,4 +54,4 @@ ymaps.ready(function() {
 
 JS;
 
-$this->registerJs($script, $this::POS_READY);
+$this->registerJs($script, $this::POS_LOAD);
