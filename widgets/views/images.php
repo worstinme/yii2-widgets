@@ -20,9 +20,9 @@ $class = 'uk-grid uk-grid-medium uk-child-width-1-' . $this->context->columns_s 
             <?php foreach ($items as $item): ?>
                 <li>
                     <?php if ($this->context->lightbox) : ?>
-                        <?= Html::a(Html::img(ImageHelper::thumbnailFileUrl(Yii::getAlias(Yii::$app->widgets->basePath) . $item['image'], 275, 275,ImageHelper::THUMBNAIL_OUTBOUND), ['class' => 'uk-width-responsive', 'alt' => $item['alt'], 'title' => $image['title']]), $item['image'], ['data-caption' => $item['caption']]) ?>
+                        <?= Html::a(Html::img(ImageHelper::thumbnailFileUrl(Yii::getAlias(Yii::$app->widgets->basePath) . $item['image'], 275, 275,ImageHelper::THUMBNAIL_OUTBOUND), ['class' => 'uk-width-responsive', 'alt' => $item['alt'], 'title' => $item['title']]), $item['image'], ['data-caption' => $item['caption']]) ?>
                     <?php else: ?>
-                        <?= Html::img(ImageHelper::thumbnailFileUrl(Yii::getAlias(Yii::$app->widgets->basePath) . $item['image'], 275, 275,ImageHelper::THUMBNAIL_OUTBOUND), ['class' => 'uk-width-responsive', 'alt' => $item['alt'], 'title' => $image['title']]) ?>
+                        <?= Html::img(ImageHelper::thumbnailFileUrl(Yii::getAlias(Yii::$app->widgets->basePath) . $item['image'], 275, 275,ImageHelper::THUMBNAIL_OUTBOUND), ['class' => 'uk-width-responsive', 'alt' => $item['alt'], 'title' => $item['title']]) ?>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
@@ -38,7 +38,7 @@ $class = 'uk-grid uk-grid-medium uk-child-width-1-' . $this->context->columns_s 
     <div class="<?= $class ?>" uk-grid uk-lightbox>
         <?php foreach ($items as $item): ?>
             <div>
-                <?= Html::a(Html::img(ImageHelper::thumbnailFileUrl(Yii::getAlias(Yii::$app->widgets->basePath) . $item['image'], 275, 275), ['class' => 'uk-width-responsive', 'alt' => $item['alt'], 'title' => $image['title']]), $item['image'], ['data-caption' => $item['caption']]) ?>
+                <?= Html::a(Html::img(ImageHelper::thumbnailFileUrl(Yii::getAlias(Yii::$app->widgets->basePath) . $item['image'], 275, 275), ['class' => 'uk-width-responsive', 'alt' => $item['alt'], 'title' => $item['title']]), $item['image'], ['data-caption' => $item['caption']]) ?>
             </div>
         <?php endforeach; ?>
     </div>
