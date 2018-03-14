@@ -19,6 +19,7 @@ class YandexMap extends \yii\base\Model
     public $iconImageOffsetX;
     public $iconImageSizeH;
     public $iconImageOffsetY;
+    public $disableScrollZoom = 1;
 
     public static function getName() {
         return 'YandexMap';
@@ -36,6 +37,7 @@ class YandexMap extends \yii\base\Model
     {
         return [
             [['ballon'],'string'],
+            ['disableScrollZoom','boolean'],
             [['zoom','iconImageSizeW','iconImageOffsetX','iconImageSizeH','iconImageOffsetY'],'integer'],
             [['center','point','width','height','iconColor','preset','iconImageHref'],'string','max'=>255],
         ];
@@ -45,6 +47,7 @@ class YandexMap extends \yii\base\Model
     {
         return [
             'coordinates' => 'Coordinates',
+            'disableScrollZoom'=>'Отключить зум карты при скроле мышкой'
         ];
     }
 

@@ -3,35 +3,43 @@
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
-var_dump($iconImageHref);
 
 $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU'); ?>
 
-<?php Pjax::begin(['id' => 'pjax', 'timeout' => 5000, 'options' => ['data-uk-observe' => true]]); ?>
+<?php Pjax::begin(['id' => 'pjax', 'timeout' => 5000, 'options' => ['class' => 'uk-form-stacked', 'data-uk-observe' => true]]); ?>
 
-    <div class="uk-grid uk-grid-small">
-        <div class="uk-width-medium-1-4">
-            <?= $form->field($model, 'center')->textInput(); ?>
+    <div class="uk-grid uk-grid-small" uk-grid>
+        <div class="uk-width-1-4@m">
+            <?= $form->field($model, 'center')->textInput(['class' => 'uk-input']); ?>
         </div>
-        <div class="uk-width-medium-1-4">
-            <?= $form->field($model, 'zoom')->textInput(); ?>
+        <div class="uk-width-1-4@m">
+            <?= $form->field($model, 'zoom')->textInput(['class' => 'uk-input']); ?>
         </div>
-        <div class="uk-width-medium-1-4">
-            <?= $form->field($model, 'height')->textInput(); ?>
+        <div class="uk-width-1-4@m">
+            <?= $form->field($model, 'height')->textInput(['class' => 'uk-input']); ?>
         </div>
-        <div class="uk-width-medium-1-4">
-            <?= $form->field($model, 'width')->textInput(); ?>
+        <div class="uk-width-1-4@m">
+            <?= $form->field($model, 'width')->textInput(['class' => 'uk-input']); ?>
         </div>
-        <div class="uk-width-medium-1-4">
-            <?= $form->field($model, 'point')->textInput(); ?>
+        <div class="uk-width-1-4@m">
+            <?= $form->field($model, 'point')->textInput(['class' => 'uk-input']); ?>
         </div>
-        <div class="uk-width-medium-1-4">
-            <?= $form->field($model, 'preset')->textInput(['option' => '']); ?>
+        <div class="uk-width-1-4@m">
+            <?= $form->field($model, 'preset')->textInput(['class' => 'uk-input']); ?>
         </div>
-        <div class="uk-width-medium-1-4">
+        <div class="uk-width-1-1">
+            <?= $form->field($model, 'disableScrollZoom')->checkbox(['class' => 'uk-checkbox']); ?>
+        </div>
+    </div>
+
+    <div id="map" class="uk-margin-top" style="height:400px;width:100%"></div>
+
+    <h3>Своя иконка:</h3>
+    <div class="uk-grid uk-grid-small" uk-grid>
+        <div class="uk-width-1-4@m">
             <?= $form->field($model, 'iconColor')->textInput(['option' => '']); ?>
         </div>
-        <div class="uk-width-medium-2-6">
+        <div class="uk-width-3-4@m">
             <?= $form->field($model, "iconImageHref")->widget(\mihaildev\elfinder\InputFile::className(), [
                 'language' => 'ru',
                 'controller' => 'elfinder', // вставляем название контроллера, по умолчанию равен elfinder
@@ -40,21 +48,19 @@ $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU'); ?>
                 'buttonOptions' => ['class' => 'uk-button uk-button-primary'],
             ]); ?>
         </div>
-        <div class="uk-width-medium-1-6">
+        <div class="uk-width-1-6@m">
             <?= $form->field($model, 'iconImageSizeW')->textInput(['option' => '']); ?>
         </div>
-        <div class="uk-width-medium-1-6">
+        <div class="uk-width-1-6@m">
             <?= $form->field($model, 'iconImageSizeH')->textInput(['option' => '']); ?>
         </div>
-        <div class="uk-width-medium-1-6">
+        <div class="uk-width-1-6@m">
             <?= $form->field($model, 'iconImageOffsetX')->textInput(['option' => '']); ?>
         </div>
-        <div class="uk-width-medium-1-6">
+        <div class="uk-width-1-6@m">
             <?= $form->field($model, 'iconImageOffsetY')->textInput(['option' => '']); ?>
         </div>
     </div>
-
-    <div id="map" class="uk-margin-top" style="height:400px;width:100%"></div>
 
 <?php if (Yii::$app->request->isPjax): ?>
     <script>ymaps.ready(init);</script>

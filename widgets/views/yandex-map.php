@@ -33,6 +33,7 @@ if (!empty($iconImageHref)) {
 }
 
 $config = yii\helpers\Json::encode($config);
+$disableScrollZoom = $this->context->disableScrollZoom ? 'true' : 'false';
 
 $script = <<<JS
 
@@ -50,6 +51,11 @@ ymaps.ready(function() {
     }, config);
 
     myMap.geoObjects.add(myGeoObject);
+    
+    if($disableScrollZoom) {
+        myMap.behaviors.disable('scrollZoom'); 
+    }
+    
 });
 
 JS;

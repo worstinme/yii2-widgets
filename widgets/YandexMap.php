@@ -20,6 +20,7 @@ class YandexMap extends Widget
     public $iconImageOffsetX;
     public $iconImageSizeH;
     public $iconImageOffsetY;
+    public $disableScrollZoom = 1;
 
     public function run()
     {
