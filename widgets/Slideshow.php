@@ -16,16 +16,6 @@ class Slideshow extends Widget
 
     public function run()
     {
-        $options = [];
-
-        if (!empty($this->height)) {
-            $options['height'] = $this->height;
-        }
-
-        if (!empty($this->autoplay)) {
-            $options['autoplay'] = $this->autoplay;
-        }
-
         $items = ArrayHelper::toArray(SlideshowItems::findAll(['widget_id'=>$this->id]),[
             SlideshowItems::className() =>[
                 'caption',
@@ -34,7 +24,6 @@ class Slideshow extends Widget
         ]);
 
         return $this->render('slideshow', [
-            'options' => $options,
             'items'=>$items,
         ]);
 

@@ -30,6 +30,7 @@ class Slideshow extends \yii\base\Model
     {
         return [
             ['hiddenNav','boolean'],
+            ['autoplay','boolean'],
         ];
     }
 
