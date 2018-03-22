@@ -17,6 +17,9 @@ class ItemsController extends Controller
         $model->widget_id = $widget->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if (Yii::$app->request->post('continue') == 'true') {
+                return $this->refresh();
+            }
             return $this->redirect(['default/update', 'id' => $widget->id]);
         }
 

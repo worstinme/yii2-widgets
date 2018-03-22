@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="uk-margin">
         <div class="uk-form-controls">
             <?=Html::submitButton('Сохранить',['class'=>'uk-button uk-button-success'])?>
+            <?=Html::submitButton('Сохранить и создать еще один',['value'=>'true','name'=>'continue','class'=>'uk-button uk-button-success'])?>
         </div>
     </div>
 
