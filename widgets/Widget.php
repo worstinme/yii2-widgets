@@ -44,13 +44,14 @@ class Widget extends \yii\base\Widget
         return $data;
     }
 
-    public function run()
+    public function afterRun($result)
     {
         if ($this->header_show) {
             $header = Html::tag('h3',$this->name,['class'=>$this->header_class]).PHP_EOL;
-            return $header.parent::run();
+            $result = $header.$result;
         }
-        return parent::run();
+
+        return parent::afterRun($result);
     }
 
     public function render($view, $params = [])
