@@ -35,6 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="uk-panel-box">
 
+            <?=$form->field($model,'view_path')->textInput(['class'=>'uk-input'])?>
+
         <div class="uk-form-row">
             <?= Html::activeLabel($model, 'bound', ['class' => 'uk-form-label']); ?>
             <div class="uk-form-controls">
@@ -96,6 +98,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'lang')->dropDownList(Yii::$app->widgets->languages, ['class'=>'uk-select','prompt' => 'Все языки']); ?>
 
             <?= $form->field($model, 'css_class')->textInput(['class'=>'uk-input']); ?>
+
+            <?= $form->field($model, 'header_show')->checkbox(['class'=>'uk-checkbox']); ?>
+
+            <?= $form->field($model, 'header_class')->textInput(['class'=>'uk-input']); ?>
 
         </div>
 

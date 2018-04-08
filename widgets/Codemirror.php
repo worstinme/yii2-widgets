@@ -10,7 +10,9 @@ class Codemirror extends Widget
 
     public function run()
     {
-        return $this->content;
+        return $this->render('codemirror',[
+            'content'=>$this->content,
+        ]);
     }   
 
 }
