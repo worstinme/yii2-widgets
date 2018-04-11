@@ -20,6 +20,8 @@ class YandexMap extends \yii\base\Model
     public $iconImageSizeH;
     public $iconImageOffsetY;
     public $disableScrollZoom = 1;
+    public $caption;
+    public $captionContainer;
 
     public static function getName() {
         return 'YandexMap';
@@ -36,8 +38,8 @@ class YandexMap extends \yii\base\Model
     public function rules()
     {
         return [
-            [['ballon'],'string'],
-            ['disableScrollZoom','boolean'],
+            [['ballon','caption'],'string'],
+            [['disableScrollZoom','captionContainer'],'boolean'],
             [['zoom','iconImageSizeW','iconImageOffsetX','iconImageSizeH','iconImageOffsetY'],'integer'],
             [['center','point','width','height','iconColor','preset','iconImageHref'],'string','max'=>255],
         ];

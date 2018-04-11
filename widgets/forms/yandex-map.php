@@ -37,28 +37,33 @@ $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU'); ?>
     <h3>Своя иконка:</h3>
     <div class="uk-grid uk-grid-small" uk-grid>
         <div class="uk-width-1-4@m">
-            <?= $form->field($model, 'iconColor')->textInput(['option' => '']); ?>
+            <?= $form->field($model, 'iconColor')->textInput(['class' => 'uk-input']); ?>
         </div>
         <div class="uk-width-3-4@m">
             <?= $form->field($model, "iconImageHref")->widget(\mihaildev\elfinder\InputFile::className(), [
                 'language' => 'ru',
                 'controller' => 'elfinder', // вставляем название контроллера, по умолчанию равен elfinder
                 'filter' => 'image',    // фильтр файлов, можно задать массив фильтров https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#wiki-onlyMimes
-                'options' => ['class' => ''],
+                'options' => ['class' => 'uk-input uk-width-2-3'],
                 'buttonOptions' => ['class' => 'uk-button uk-button-primary'],
             ]); ?>
         </div>
         <div class="uk-width-1-6@m">
-            <?= $form->field($model, 'iconImageSizeW')->textInput(['option' => '']); ?>
+            <?= $form->field($model, 'iconImageSizeW')->textInput(['class' => 'uk-input']); ?>
         </div>
         <div class="uk-width-1-6@m">
-            <?= $form->field($model, 'iconImageSizeH')->textInput(['option' => '']); ?>
+            <?= $form->field($model, 'iconImageSizeH')->textInput(['class' => 'uk-input']); ?>
         </div>
         <div class="uk-width-1-6@m">
-            <?= $form->field($model, 'iconImageOffsetX')->textInput(['option' => '']); ?>
+            <?= $form->field($model, 'iconImageOffsetX')->textInput(['class' => 'uk-input']); ?>
         </div>
         <div class="uk-width-1-6@m">
-            <?= $form->field($model, 'iconImageOffsetY')->textInput(['option' => '']); ?>
+            <?= $form->field($model, 'iconImageOffsetY')->textInput(['class' => 'uk-input']); ?>
+        </div>
+        <div class="uk-width-1-1">
+            <hr>
+            <?= $form->field($model, 'caption')->textarea(['class'=>'uk-textarea','rows'=>6])?>
+            <?= $form->field($model, 'captionContainer')->checkbox(['class'=>'uk-checkbox'])?>
         </div>
     </div>
 

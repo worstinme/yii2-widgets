@@ -21,6 +21,8 @@ class YandexMap extends Widget
     public $iconImageSizeH;
     public $iconImageOffsetY;
     public $disableScrollZoom = 1;
+    public $caption;
+    public $captionContainer;
 
     public function run()
     {

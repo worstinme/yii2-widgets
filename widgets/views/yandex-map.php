@@ -6,22 +6,32 @@ $id = uniqid();
 
 $this->registerJsFile('//api-maps.yandex.ru/2.1/?lang=ru_RU');
 
-echo Html::tag('div', '', [
-    'class' => 'yandex-map',
-    'id' => $id,
-    'style' => 'width:' . $width . '; height:' . $height,
-]);
+?>
+    <div class="yandex-map">
+        <?php if (!empty($this->context->caption)) : ?>
+
+            <div class="<?= $this->context->captionContainer ? 'uk-container' : '' ?>">
+                <div class="caption">
+                    <div class="caption-container">
+                        <?= $this->context->caption ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div id="<?= $id ?>" style="<?= 'width:' . $width . '; height:' . $height ?>"></div>
+    </div>
+<?php
 
 if (!empty($iconImageHref)) {
     $config = [
         'iconLayout' => 'default#image',
-        'iconImageHref'=>$iconImageHref,
+        'iconImageHref' => $iconImageHref,
     ];
     if (!empty($iconImageSizeW) && !empty($iconImageSizeH)) {
-        $config['iconImageSize'] = [$iconImageSizeW,$iconImageSizeH];
+        $config['iconImageSize'] = [$iconImageSizeW, $iconImageSizeH];
     }
-    if ($iconImageOffsetX !== null && $iconImageOffsetY !== null ) {
-        $config['iconImageOffset'] = [$iconImageOffsetX,$iconImageOffsetY];
+    if ($iconImageOffsetX !== null && $iconImageOffsetY !== null) {
+        $config['iconImageOffset'] = [$iconImageOffsetX, $iconImageOffsetY];
     }
 } else {
     $config = [
