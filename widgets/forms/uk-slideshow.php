@@ -15,8 +15,6 @@ $_reload = Yii::$app->request->post('reload');
 
 ?>
 
-<?php Pjax::begin(['id'=>'pjax','timeout'=>5000,'options'=>['data-uk-observe'=>true]]); ?> 
-
 <div class="uk-form-row">
 	<div class="uk-button-group">
 	<?php foreach ($types as $key => $type): ?>
@@ -129,18 +127,8 @@ $_reload = Yii::$app->request->post('reload');
 
 <?= Html::a('Добавить строку', $url = null, ['data' => ['method'=>'post','params'=>['reload'=>true],'pjax'=>true]]); ?>
 
-<?= $form->field($model, 'height')->textInput(['placeholder' => 'Высота']); ?>
+<?= $form->field($model, 'height')->textInput(['class' => 'uk-input','placeholder' => 'Высота']); ?>
 
-<?= $form->field($model, 'autoplay')->checkbox(['option' => 'value']); ?>
+<?= $form->field($model, 'autoplay')->checkbox(['class' => 'uk-checkbox']); ?>
 
-<?= $form->field($model, 'slide_container')->checkbox(['option' => 'value']); ?>
-
-<?php Pjax::end(); ?>
-
-<?php $script = <<<JAVASCRIPT
-
-$.pjax.defaults.scrollTo = false;
-
-JAVASCRIPT;
-
-$this->registerJs($script,$this::POS_READY);
+<?= $form->field($model, 'slide_container')->checkbox(['class' => 'uk-checkbox']); ?>
