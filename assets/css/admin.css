@@ -19,3 +19,7 @@
     height: 27px;
     border-right: 1px solid #fff;
 }
+
+.widgets tr:first-child td a[data-up],.widgets tr:last-child td a[data-down] {
+    visibility: hidden;
+}

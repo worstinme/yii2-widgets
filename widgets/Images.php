@@ -17,7 +17,7 @@ class Images extends Widget
 
     public function run()
     {
-        $items = ArrayHelper::toArray(ImagesItems::findAll(['widget_id'=>$this->id]),[
+        $items = ArrayHelper::toArray(ImagesItems::find()->where(['widget_id' => $this->id])->orderBy('sort')->all(),[
             ImagesItems::className() =>[
                 'alt'=>function($model) {
                     return $model->imageAlt;

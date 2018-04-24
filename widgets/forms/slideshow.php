@@ -18,12 +18,12 @@ use yii\widgets\Pjax;
 
     <?= \yii\grid\GridView::widget([
         'dataProvider' => new \yii\data\ActiveDataProvider([
-            'query' => \worstinme\widgets\widgets\models\SlideshowItems::find()->where(['widget_id' => $widget->id]),
+            'query' => \worstinme\widgets\widgets\models\SlideshowItems::find()->where(['widget_id' => $widget->id])->orderBy('sort'),
             'sort' => false,
             'pagination' => false,
         ]),
-        'options' => [
-            'class' => 'uk-table',
+        'tableOptions' => [
+            'class' => 'uk-table uk-table-small uk-table-middle uk-table-condensed uk-table-striped',
         ],
         'layout' => '{items}',
         'columns' => [
@@ -44,12 +44,15 @@ use yii\widgets\Pjax;
             'imageAlt',
             'imageTitle',
             'caption',
-            'sort',
+            [
+                'class' => '\worstinme\widgets\helpers\SortColumn',
+                'url' => ['items/sort'],
+            ],
             [
                 'label' => '',
                 'format' => 'raw',
                 'value' => function ($model) use ($widget) {
-                    return Html::a('<i uk-icon="icon:trash"></i>', ['items/delete', 'id' => $model->id],['data'=>['method'=>'post','confirm'=>'confirm?']]);
+                    return Html::a('<i uk-icon="icon:trash"></i>', ['items/delete', 'id' => $model->id], ['data' => ['method' => 'post', 'confirm' => 'confirm?']]);
                 }
             ],
 
@@ -58,7 +61,7 @@ use yii\widgets\Pjax;
 
 <?php endif; ?>
 
-<?= $form->field($model, 'height')->textInput(['class'=>'uk-input','placeholder' => 'Высота']); ?>
+<?= $form->field($model, 'height')->textInput(['class' => 'uk-input', 'placeholder' => 'Высота']); ?>
 
 <?= $form->field($model, 'autoplay')->checkbox(['class' => 'uk-checkbox']); ?>
 

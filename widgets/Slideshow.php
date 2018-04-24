@@ -16,7 +16,7 @@ class Slideshow extends Widget
 
     public function run()
     {
-        $items = ArrayHelper::toArray(SlideshowItems::findAll(['widget_id'=>$this->id]),[
+        $items = ArrayHelper::toArray(SlideshowItems::find()->where(['widget_id' => $this->id])->orderBy('sort')->all(),[
             SlideshowItems::className() =>[
                 'caption',
                 'image',

@@ -53,7 +53,59 @@ class ItemsController extends Controller
 
     }
 
-    public function actionDelete($id) {
+    public function actionSort()
+    {
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $sort = Yii::$app->request->post('sort');
+
+        $result = [];
+
+        if ($sort !== null && is_array($sort)) {
+
+            $transaction = Yii::$app->db->beginTransaction();
+
+            try {
+
+                foreach ($sort as $index => $id) {
+
+                    if (($item = WidgetsItems::findOne($id)) !== null) {
+
+                        $item->sort = (int)$index;
+
+                        if (!$item->save(false)) {
+                            throw new \Exception('Один из сортируемых эелемнтов не удалось сохранить');
+                        }
+
+                    } else {
+                        throw new \Exception('Один из сортируемых эелемнтов не найден');
+                    }
+
+                }
+
+                $transaction->commit();
+
+                return [
+                    'success' => true,
+                    'message' => 'Saved!',
+                ];
+
+            } catch (\Exception $e) {
+
+                $transaction->rollBack();
+
+                throw $e;
+
+            }
+
+        }
+
+        throw new \Exception('Не удалось завершить сортировку');
+    }
+
+    public function actionDelete($id)
+    {
 
         if (($model = WidgetsItems::findOne($id)) === null) {
             throw new NotFoundHttpException();

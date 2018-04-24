@@ -17,7 +17,7 @@ class Accordion extends Widget
 
     public function run()
     {
-        $items = AccordionItems::findAll(['widget_id' => $this->id]);
+        $items = AccordionItems::find()->where(['widget_id' => $this->id])->orderBy('sort')->all();
 
         $options = [
             'collapsible: ' . ($this->collapsible ? 'true' : 'false'),
