@@ -23,3 +23,10 @@
 .widgets tr:first-child td a[data-up],.widgets tr:last-child td a[data-down] {
     visibility: hidden;
 }
+
+.column-edit {
+    line-height: 30px;
+    height: 30px;
+    border:1px solid #ccc;
+    width:100%;
+}
