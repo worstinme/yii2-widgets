@@ -10,6 +10,10 @@
 
 <?= $form->field($model,'caption')->textarea(['class'=>'uk-textarea'])?>
 
+<?= $form->field($model,'title')->textInput(['class'=>'uk-input'])?>
+
+<?= $form->field($model,'url')->textInput(['class'=>'uk-input'])?>
+
 <?= $form->field($model,'imageAlt')->textInput(['class'=>'uk-input'])?>
 
 <?= $form->field($model,'imageTitle')->textInput(['class'=>'uk-input'])?>

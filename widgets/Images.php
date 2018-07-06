@@ -19,14 +19,12 @@ class Images extends Widget
     {
         $items = ArrayHelper::toArray(ImagesItems::find()->where(['widget_id' => $this->id])->orderBy('sort')->all(),[
             ImagesItems::className() =>[
-                'alt'=>function($model) {
-                    return $model->imageAlt;
-                },
-                'title'=>function($model) {
-                    return $model->imageTitle;
-                },
+                'imageAlt',
+                'imageTitle',
                 'caption',
                 'image',
+                'title',
+                'url',
             ]
         ]);
 
