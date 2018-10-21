@@ -13,7 +13,7 @@ class ImagesItems extends \worstinme\widgets\models\WidgetsItems {
     {
         return [
             [['caption'],'string'],
-            [['imageAlt','imageTitle','image',],'string','max'=>255],
+            [['imageAlt','imageTitle','image','title','url'],'string','max'=>255],
             [['image'],'required'],
         ];
     }
@@ -48,6 +48,22 @@ class ImagesItems extends \worstinme\widgets\models\WidgetsItems {
 
     public function setImageTitle($value) {
         return $this->_params['imageTitle'] = $value;
+    }
+
+    public function getTitle() {
+        return isset($this->_params['title']) ? $this->_params['title'] : null;
+    }
+
+    public function setTitle($value) {
+        return $this->_params['title'] = $value;
+    }
+
+    public function getUrl() {
+        return isset($this->_params['url']) ? $this->_params['url'] : null;
+    }
+
+    public function setUrl($value) {
+        return $this->_params['url'] = $value;
     }
 
     public function getFormView() {

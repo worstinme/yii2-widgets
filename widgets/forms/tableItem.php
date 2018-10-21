@@ -26,10 +26,10 @@ $columnNames = explode("|", $widget->widgetModel->columnNames);
         <?php if (count($model->row)) : ?>
             <?php foreach ($model->row as $columns) : ?>
                 <tr>
-                    <td><?=$row+1?></td>
+                    <td><?= $row + 1 ?></td>
                     <?php for ($column = 0; $column < $widget->widgetModel->columns; $column++) { ?>
                         <td contenteditable="true">
-                            <?=$model->row[$row][$column]??null?>
+                            <?= $model->row[$row][$column] ?? null ?>
                             <?= Html::activeHiddenInput($model, "row[$row][$column]", ['autocomplete' => 'off', 'class' => 'uk-form-small uk-input uk-width-1-1']) ?>
                         </td>
                     <?php } ?>
@@ -39,25 +39,11 @@ $columnNames = explode("|", $widget->widgetModel->columnNames);
                 </tr>
                 <?php $row++; endforeach; ?>
         <?php endif; ?>
-       <?php if ($widget->widgetModel->chunk >= $row) : ?>
-            <?php for ($row = $row; $row < $widget->widgetModel->chunk; $row++) { ?>
-               <tr>
-                   <td><?=$row+1?></td>
-                   <?php for ($column = 0; $column < $widget->widgetModel->columns; $column++) { ?>
-                       <td contenteditable="true">
-                           <?= Html::activeHiddenInput($model, "row[$row][$column]", ['autocomplete' => 'off', 'class' => 'uk-form-small uk-input uk-width-1-1']) ?>
-                       </td>
-                   <?php } ?>
-                   <td><a data-up><i uk-icon="icon: chevron-up"></i></a></td>
-                   <td><a data-down><i uk-icon="icon: chevron-down"></i></a></td>
-                   <td><a data-remove><i uk-icon="icon:trash"></i></a></td>
-               </tr>
-            <?php } $row ++; ?>
-       <?php endif; ?>
-            <tr class="uk-hidden">
-                <td></td>
+        <?php for ($row = $row; $row < $widget->widgetModel->chunk; $row++) { ?>
+            <tr>
+                <td><?= $row + 1 ?></td>
                 <?php for ($column = 0; $column < $widget->widgetModel->columns; $column++) { ?>
-                    <td contenteditable="true" data-column="<?=$column?>">
+                    <td contenteditable="true">
                         <?= Html::activeHiddenInput($model, "row[$row][$column]", ['autocomplete' => 'off', 'class' => 'uk-form-small uk-input uk-width-1-1']) ?>
                     </td>
                 <?php } ?>
@@ -65,11 +51,23 @@ $columnNames = explode("|", $widget->widgetModel->columnNames);
                 <td><a data-down><i uk-icon="icon: chevron-down"></i></a></td>
                 <td><a data-remove><i uk-icon="icon:trash"></i></a></td>
             </tr>
+        <?php } ?>
+        <tr class="uk-hidden">
+            <td></td>
+            <?php for ($column = 0; $column < $widget->widgetModel->columns; $column++) { ?>
+                <td contenteditable="true" data-column="<?= $column ?>">
+                    <input type="hidden" class="uk-form-small uk-input uk-width-1-1" autocomplete="off">
+                </td>
+            <?php } ?>
+            <td><a data-up><i uk-icon="icon: chevron-up"></i></a></td>
+            <td><a data-down><i uk-icon="icon: chevron-down"></i></a></td>
+            <td><a data-remove><i uk-icon="icon:trash"></i></a></td>
+        </tr>
         </tbody>
     </table>
 
     <p>
-        <button class="uk-button uk-button-success" data-row="<?=$row?>">Добавить строку</button>
+        <button class="uk-button uk-button-success" data-row="<?= $row ?>">Добавить строку</button>
     </p>
 
 
@@ -92,10 +90,10 @@ $(document)
         var row = $(".editable-table").find("tr.uk-hidden").clone();
         var rowNum = $(this).data("row");
         row.find("td[data-column]").each(function() {
-          $(this).find("input").attr("name","row["+rowNum+"]["+$(this).data("column")+"]");
+          $(this).find("input").attr("name","TableItems[row]["+rowNum+"]["+$(this).data("column")+"]");
         })
         row.removeClass("uk-hidden");
-        row.find("td:first-child").text(rowNum);
+        row.find("td:first-child").text(rowNum+1);
         $(this).data("row",rowNum+1);
         $(".editable-table").find("tr.uk-hidden").before(row)
     })
@@ -106,4 +104,4 @@ $(document)
 
 JS;
 
-$this->registerJs($script,$this::POS_READY);
+$this->registerJs($script, $this::POS_READY);
