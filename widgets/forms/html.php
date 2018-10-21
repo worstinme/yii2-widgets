@@ -1,9 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use worstinme\uikit\ActiveForm;
+use yii\widgets\ActiveForm;
 
-$form = ActiveForm::begin(['layout'=>'horizontal','field_width'=>'full']); ?>
+$form = ActiveForm::begin([]); ?>
 
 <?=\mihaildev\ckeditor\CKEditor::widget([
     'model'=>$model,
