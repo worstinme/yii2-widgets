@@ -41,9 +41,8 @@ use yii\widgets\Pjax;
                     return \worstinme\widgets\helpers\ImageHelper::thumbnailImg(Yii::$app->widgets->basePath . $model->image, 40, 40);
                 },
             ],
+            'url',
             'imageAlt',
-            'imageTitle',
-            'caption',
             [
                 'class' => '\worstinme\widgets\helpers\SortColumn',
                 'url' => ['items/sort'],

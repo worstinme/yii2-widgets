@@ -13,7 +13,7 @@ class SlideshowItems extends \worstinme\widgets\models\WidgetsItems {
     {
         return [
             ['caption','string'],
-            ['image','string','max'=>255],
+            [['image','url','imageAlt','imageTitle'],'string','max'=>255],
             [['image'],'required'],
         ];
     }
@@ -32,6 +32,14 @@ class SlideshowItems extends \worstinme\widgets\models\WidgetsItems {
 
     public function setImage($value) {
         return $this->_params['image'] = $value;
+    }
+
+    public function getUrl() {
+        return isset($this->_params['url']) ? $this->_params['url'] : null;
+    }
+
+    public function setUrl($value) {
+        return $this->_params['url'] = $value;
     }
 
     public function getImageAlt() {
