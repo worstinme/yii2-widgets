@@ -20,6 +20,9 @@ class Slideshow extends Widget
             SlideshowItems::className() =>[
                 'caption',
                 'image',
+                'url',
+                'imageAlt',
+                'imageTitle',
             ]
         ]);
 
